@@ -9,11 +9,7 @@ import java.util.Set;
 
 /**
  * @author taltalspektor
- *
- */
-/**
- * @author taltalspektor
- *
+ * manage the system connections
  */
 public class ConnectionPool {
 
@@ -35,8 +31,8 @@ public class ConnectionPool {
 		}
 		return instance;
 	}
-	/*
-	 * return connection
+	/**
+	 * @return a connection
 	 * if no connection is available will notify the current thread to wait
 	 */
 	public synchronized Connection getConnection() {
@@ -52,15 +48,16 @@ public class ConnectionPool {
 		it.remove();
 		return con;
 	}
-	/* 
-	 * Restore a connection back the the connection set
+	/**
+	 * @param connection
+	 * Restore a connection back in the connection set
 	 */
 	public synchronized void restoreConnection(Connection connection) {
 		connections.add(connection);
 		notify();
 	}
-	/*
-	 * Close all open connections
+	/**
+	 * Close all the connections
 	 */
 	public void closeAllConnections() {
 		for (Connection connection : connections) {

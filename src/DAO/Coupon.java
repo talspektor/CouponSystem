@@ -2,6 +2,10 @@ package DAO;
 
 import java.sql.Date;
 
+/**
+ * @author taltalspektor
+ *
+ */
 public class Coupon {
 
 	private int id;

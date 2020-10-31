@@ -2,6 +2,10 @@ package DAO;
 
 import java.util.List;
 
+/**
+ * @author taltalspektor
+ *
+ */
 public class Customer {
 
 	private int id;

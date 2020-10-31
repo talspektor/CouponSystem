@@ -1,5 +1,9 @@
 package excetion;
 
+/**
+ * @author taltalspektor
+ *
+ */
 public class CouponSystemException extends Exception {
 
 	/**

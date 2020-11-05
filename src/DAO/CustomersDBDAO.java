@@ -19,21 +19,26 @@ public class CustomersDBDAO implements CustomesDAO {
 		connectionPool = ConnectionPool.getInstance();
 	}
 
+	/**
+	 * params: String email, String password
+	 * Return true is customer with this email and password is in database
+	 */
 	@Override
 	public boolean isCustomerExists(String email, String password) throws CouponSystemException {
 		try {
 			String sql = "select id from " + Constants.CUSTOMERS_TABLE + " where " + Constants.EMAIL + "=" + email + "AND" + Constants.PAAWORD + "=" + password;
 			Statement stmt = connectionPool.getConnection().createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			if (rs.next()) {
-				return true;
-			}
+			return rs.next();
 		} catch (SQLException e) {
 			throw new CouponSystemException("fail: " + e.getCause(), e);
 		}
-		return false;
 	}
 
+	/**
+	 * param: Customer customer
+	 * Add customer to database
+	 */
 	@Override
 	public void addCustomer(Customer customer) throws CouponSystemException {
 		try {
@@ -52,6 +57,10 @@ public class CustomersDBDAO implements CustomesDAO {
 		}
 	}
 
+	/**
+	 * param: Customer customer
+	 * Update the customer in database
+	 */
 	@Override
 	public void updateCustomer(Customer customer) throws CouponSystemException {
 		try {
@@ -70,6 +79,10 @@ public class CustomersDBDAO implements CustomesDAO {
 		}
 	}
 
+	/**
+	 * param: int customerId
+	 * Delete customer where id = customerId from database 
+	 */
 	@Override
 	public void deleteCustomer(int customerId) throws CouponSystemException {
 		try {
@@ -82,6 +95,9 @@ public class CustomersDBDAO implements CustomesDAO {
 		}
 	}
 
+	/**
+	 * Retrun all customers from database
+	 */
 	@Override
 	public ArrayList<Customer> getAllCustomers() throws CouponSystemException {
 		try {
@@ -105,6 +121,10 @@ public class CustomersDBDAO implements CustomesDAO {
 		}
 	}
 
+	/**
+	 * param: int customerId
+	 * Return customer where id = customerId
+	 */
 	@Override
 	public Customer getOneCustomer(int customerId) throws CouponSystemException {
 		try {

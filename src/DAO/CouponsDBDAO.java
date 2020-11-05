@@ -21,11 +21,15 @@ public class CouponsDBDAO implements CouponsDAO {
 		connectionPool = ConnectionPool.getInstance();
 	}
 
+	/**
+	 *param: Coupon coupon
+	 *Add coupon to database
+	 */
 	@Override
 	public void addCoupon(Coupon coupon) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
 		try {
-			String sql = "insert into " + Constants.COUPONS_TABLE + "values(?,?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into " + Constants.COUPONS_TABLE + " values(?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			
 			pstmt.setInt(1, coupon.getId());
@@ -47,6 +51,10 @@ public class CouponsDBDAO implements CouponsDAO {
 		}
 	}
 
+	/**
+	 * param: Coupon coupon
+	 * Update coupon in database
+	 */
 	@Override
 	public void updateCoupon(Coupon coupon) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
@@ -83,6 +91,10 @@ public class CouponsDBDAO implements CouponsDAO {
 		}
 	}
 
+	/**
+	 * param: int couponId
+	 * delete coupon from database
+	 */
 	@Override
 	public void deleteCoupon(int couponId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
@@ -98,6 +110,9 @@ public class CouponsDBDAO implements CouponsDAO {
 		}
 	}
 
+	/**
+	 * Return all coupons from database
+	 */
 	@Override
 	public ArrayList<Coupon> getAllCoupons() throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
@@ -130,6 +145,10 @@ public class CouponsDBDAO implements CouponsDAO {
 		}
 	}
 
+	/**
+	 * param: int couponId
+	 * Return coupon from database
+	 */
 	@Override
 	public Coupon getOneCoupon(int couponId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
@@ -160,16 +179,47 @@ public class CouponsDBDAO implements CouponsDAO {
 		return null;
 	}
 
+	/**
+	 * param: int customerId, int couponId
+	 * Connect coupon to customer in database
+	 */
 	@Override
 	public void addCouponPurchase(int customerId, int couponId) throws CouponSystemException {
-		// TODO Auto-generated method stub
+		Connection connection = connectionPool.getConnection();
+		try {
+			String sql = "insert into " + Constants.CUSTOMERS_VS_COUPONS + " values(?,?)";
+			PreparedStatement pstmt = connectionPool.getConnection().prepareStatement(sql);
+
+			pstmt.setInt(1, customerId);
+			pstmt.setInt(2, couponId);
+
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new CouponSystemException("fail: " + e.getCause(), e);
+		} finally {
+			connectionPool.restoreConnection(connection);
+		}
 		
 	}
 
+	/**
+	 * param: int customerId, int couponId
+	 * Remove coupon connection from customer in database  
+	 */
 	@Override
 	public void deleteCouponPurchase(int customeId, int couponId) throws CouponSystemException {
-		// TODO Auto-generated method stub
-		
+		Connection connection = connectionPool.getConnection();
+		try {
+			String sql = "delete from " + Constants.CUSTOMERS_VS_COUPONS + " where customer_id=? and coupon_id=?";
+			PreparedStatement pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, customeId);
+			pstmt.setInt(2, couponId);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new CouponSystemException("fail: " + e.getCause(), e);
+		} finally {
+			connectionPool.restoreConnection(connection);
+		}
 	}
 
 }

@@ -6,6 +6,7 @@ public enum Constants {
 	COMPANIES_TABLE("compnies"),
 	CATEGORIES_TABLE("categories"),
 	CUSTOMERS_TABLE("costomers"),
+	CUSTOMERS_VS_COUPONS("customers_vs_coupons"),
 	EMAIL("email"),
 	PAAWORD("password");
 	

@@ -1,5 +1,6 @@
 package utils;
 
+
 public enum Constants {
 	DB_NAME("coupons_system"),
 	COUPONS_TABLE("coupons"),
@@ -7,8 +8,23 @@ public enum Constants {
 	CATEGORIES_TABLE("categories"),
 	CUSTOMERS_TABLE("costomers"),
 	CUSTOMERS_VS_COUPONS("customers_vs_coupons"),
+	ID("id"),
 	EMAIL("email"),
-	PAAWORD("password");
+	PAAWORD("password"),
+	NAME("name"),
+	FIRST_NAME("first_name"),
+	LAST_NAME("last_name"),
+	CUSTOMER_ID("customer_id"),
+	COUPON_ID("coupon_id"),
+	COMPANY_ID("company_id"),
+	CATEGORY_ID("category_id"),
+	TITLE("title"),
+	DESCRIPTION("description"),
+	START_DATE("start_date"),
+	END_DATE("end_date"),
+	AMOUNT("amount"),
+	PRICE("price"),
+	IMAGE("image");
 	
 	private String value;
 	

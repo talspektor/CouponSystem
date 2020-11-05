@@ -1,19 +1,30 @@
-package DAO;
+package beans;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author taltalspektor
  *
  */
-public class Company {
+public class Company implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6036277199915661257L;
 	private int id;
 	private String name;
-	private String emaill;
+	private String email;
 	private String password;
 	private List<Coupon> coupons;
 	
+	
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -22,12 +33,12 @@ public class Company {
 		this.name = name;
 	}
 	
-	public String getEmaill() {
-		return emaill;
+	public String getEmail() {
+		return email;
 	}
 	
-	public void setEmaill(String emaill) {
-		this.emaill = emaill;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	public String getPassword() {
@@ -52,7 +63,7 @@ public class Company {
 	
 	@Override
 	public String toString() {
-		return "Company [id=" + id + ", name=" + name + ", emaill=" + emaill + ", password=" + password + ", coupons="
+		return "Company [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", coupons="
 				+ coupons + "]";
 	}
 	

@@ -1,4 +1,4 @@
-package DAO;
+package beans;
 
 import java.util.List;
 
@@ -15,6 +15,12 @@ public class Customer {
 	private String password;
 	private List<Coupon> coupons;
 	
+	
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}

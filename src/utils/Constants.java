@@ -6,7 +6,8 @@ public enum Constants {
 	COMPANIES_TABLE("compnies"),
 	CATEGORIES_TABLE("categories"),
 	CUSTOMERS_TABLE("costomers"),
-	EMAIL("email");
+	EMAIL("email"),
+	PAAWORD("password");
 	
 	private String value;
 	

@@ -1,4 +1,4 @@
-package DAO;
+package beans;
 
 import java.sql.Date;
 
@@ -9,7 +9,7 @@ import java.sql.Date;
 public class Coupon {
 
 	private int id;
-	private String couponId;
+	private int companyId;
 	private Category category;
 	private String title;
 	private String description;
@@ -19,12 +19,18 @@ public class Coupon {
 	private double price;
 	private String imageUrl;
 	
-	public String getCouponId() {
-		return couponId;
+	
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getCompanyId() {
+		return companyId;
 	}
 	
-	public void setCouponId(String couponId) {
-		this.couponId = couponId;
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
 	}
 	
 	public Category getCategory() {
@@ -97,7 +103,7 @@ public class Coupon {
 	
 	@Override
 	public String toString() {
-		return "Coupon [id=" + id + ", couponId=" + couponId + ", category=" + category + ", title=" + title
+		return "Coupon [id=" + id + ", companyId=" + companyId + ", category=" + category + ", title=" + title
 				+ ", description=" + description + ", startDate=" + startDate + ", endDate=" + endDate + ", amount="
 				+ amount + ", price=" + price + ", imageUrl=" + imageUrl + "]";
 	}

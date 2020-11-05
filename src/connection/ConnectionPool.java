@@ -15,7 +15,10 @@ public class ConnectionPool {
 
 	private Set<Connection> connections = new HashSet<Connection>();
 	public static final int MAX = 5;// the maximum connections in the pool
-	private String url;
+	/**
+	 * url to connect mysql coupons_system database
+	 */
+	private String url = "jdbc:mysql://localhost:3306/coupons_system";
 
 	private static ConnectionPool instance;
 

@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import excetion.CouponSystemException;
+
 /**
  * @author taltalspektor
  * manage the system connections
@@ -22,13 +24,17 @@ public class ConnectionPool {
 
 	private static ConnectionPool instance;
 
-	private ConnectionPool() throws SQLException {
+	private ConnectionPool() throws CouponSystemException {
 		for (int i = 0; i < MAX; i++) {
-			connections.add(DriverManager.getConnection(url));
+			try {
+				connections.add(DriverManager.getConnection(url));
+			} catch (SQLException e) {
+				throw new CouponSystemException("fail: " + e.getCause(), e);
+			}
 		}
 	}
 	
-	public static ConnectionPool getInstance() throws SQLException {
+	public static ConnectionPool getInstance() throws CouponSystemException {
 		if (instance == null) {
 			instance = new ConnectionPool();
 		}
@@ -38,12 +44,12 @@ public class ConnectionPool {
 	 * @return a connection
 	 * if no connection is available will notify the current thread to wait
 	 */
-	public synchronized Connection getConnection() {
+	public synchronized Connection getConnection() throws CouponSystemException {
 		while (connections.isEmpty()) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				new CouponSystemException("fail: " + e.getCause(), e);
 			}
 		}
 		Iterator<Connection> it = connections.iterator();
@@ -62,12 +68,12 @@ public class ConnectionPool {
 	/**
 	 * Close all the connections
 	 */
-	public void closeAllConnections() {
+	public void closeAllConnections() throws CouponSystemException {
 		for (Connection connection : connections) {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				new CouponSystemException("fail: " + e.getCause(), e);
 			}
 		}
 	}

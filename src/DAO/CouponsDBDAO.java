@@ -17,7 +17,7 @@ public class CouponsDBDAO implements CouponsDAO {
 	
 	private ConnectionPool connectionPool;
 	
-	public CouponsDBDAO() throws SQLException {
+	public CouponsDBDAO() throws CouponSystemException {
 		connectionPool = ConnectionPool.getInstance();
 	}
 

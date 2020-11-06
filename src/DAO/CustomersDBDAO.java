@@ -15,7 +15,7 @@ public class CustomersDBDAO implements CustomesDAO {
 	
 	private ConnectionPool connectionPool;
 
-	public CustomersDBDAO() throws SQLException {
+	public CustomersDBDAO() throws CouponSystemException {
 		connectionPool = ConnectionPool.getInstance();
 	}
 

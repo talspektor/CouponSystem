@@ -29,7 +29,15 @@ public class CouponsDBDAO implements CouponsDAO {
 		Connection connection = connectionPool.getConnection();
 		try {
 			String sql = "insert into coupon_system.coupons"
-					+ " (compamy_id, category_id, title, description, start_date, end_date, amount, price, image)"
+					+ " (company_id,"
+					+ " category_id,"
+					+ " title,"
+					+ " description,"
+					+ " start_date,"
+					+ " end_date,"
+					+ " amount,"
+					+ " price,"
+					+ " image)"
 					+ " values(?,?,?,?,?,?,?,?,?)";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			
@@ -60,7 +68,7 @@ public class CouponsDBDAO implements CouponsDAO {
 		Connection connection = connectionPool.getConnection();
 		try {
 			String sql = "update coupon_system.coupons"
-					+ " set compamy_id=?,"
+					+ " set company_id=?,"
 					+ " category_id=?,"
 					+ " title=?,"
 					+ " description=?,"
@@ -154,25 +162,6 @@ public class CouponsDBDAO implements CouponsDAO {
 		return null;
 	}
 	
-	private Coupon getCoupon(int couponId, ResultSet rs) throws CouponSystemException {
-		try {
-			int id = couponId;
-			int companyId = rs.getInt("compamy_id");
-			int categoryId = rs.getInt("category_id");
-			String title = rs.getString("title");
-			String description = rs.getString("description");
-			Date startDate = rs.getDate("start_date");
-			Date endDate = rs.getDate("end_date");
-			int amount = rs.getInt("amount");
-			double price = rs.getDouble("price");
-			String imageUrl = rs.getString("image");
-			return new Coupon(id, companyId, categoryId, title, description, startDate, endDate, amount, price, imageUrl);
-			
-		} catch (SQLException | ClassCastException e) {
-			throw new CouponSystemException("fail to get coupon", e);
-		}
-	}
-
 	/**
 	 * param: int customerId, int couponId
 	 * Connect coupon to customer in database
@@ -181,7 +170,7 @@ public class CouponsDBDAO implements CouponsDAO {
 	public void addCouponPurchase(int customerId, int couponId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
 		try {
-			String sql = "insert into " + Constants.CUSTOMERS_VS_COUPONS + " values(?,?)";
+			String sql = "insert into coupon_system.customers_vs_coupons values(?,?)";
 			PreparedStatement pstmt = connectionPool.getConnection().prepareStatement(sql);
 
 			pstmt.setInt(1, customerId);
@@ -189,7 +178,7 @@ public class CouponsDBDAO implements CouponsDAO {
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail: " + e.getCause(), e);
+			throw new CouponSystemException("fail to add coupon purchase: " + e.getCause(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -204,15 +193,35 @@ public class CouponsDBDAO implements CouponsDAO {
 	public void deleteCouponPurchase(int customeId, int couponId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
 		try {
-			String sql = "delete from " + Constants.CUSTOMERS_VS_COUPONS + " where customer_id=? and coupon_id=?";
+			String sql = "delete from coupon_system.customers_vs_coupons"
+					+ " where customer_id=? and coupon_id=?";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1, customeId);
 			pstmt.setInt(2, couponId);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail: " + e.getCause(), e);
+			throw new CouponSystemException("fail to delete coupon purchase: " + e.getCause(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
+		}
+	}
+
+	private Coupon getCoupon(int couponId, ResultSet rs) throws CouponSystemException {
+		try {
+			int id = couponId;
+			int companyId = rs.getInt("company_id");
+			int categoryId = rs.getInt("category_id");
+			String title = rs.getString("title");
+			String description = rs.getString("description");
+			Date startDate = rs.getDate("start_date");
+			Date endDate = rs.getDate("end_date");
+			int amount = rs.getInt("amount");
+			double price = rs.getDouble("price");
+			String imageUrl = rs.getString("image");
+			return new Coupon(id, companyId, categoryId, title, description, startDate, endDate, amount, price, imageUrl);
+			
+		} catch (SQLException | ClassCastException e) {
+			throw new CouponSystemException("fail to get coupon", e);
 		}
 	}
 

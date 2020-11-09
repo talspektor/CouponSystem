@@ -61,7 +61,9 @@ public class TestDAO {
 //			couponsDAO.updateCoupon(coupon);
 //			couponsDAO.deleteCoupon(coupon.getId());
 //			System.out.println(couponsDAO.getAllCoupons());
-			System.out.println(couponsDAO.getOneCoupon(5));
+//			System.out.println(couponsDAO.getOneCoupon(5));
+//			couponsDAO.addCouponPurchase(1, 5);
+			couponsDAO.deleteCouponPurchase(1, 5);
 		} catch (CouponSystemException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

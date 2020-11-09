@@ -10,7 +10,7 @@ public enum Constants {
 	CUSTOMERS_VS_COUPONS("customers_vs_coupons"),
 	ID("id"),
 	EMAIL("email"),
-	PAAWORD("password"),
+	PASSWORD("password"),
 	NAME("name"),
 	FIRST_NAME("first_name"),
 	LAST_NAME("last_name"),

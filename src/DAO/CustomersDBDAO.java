@@ -42,15 +42,14 @@ public class CustomersDBDAO implements CustomesDAO {
 	@Override
 	public void addCustomer(Customer customer) throws CouponSystemException {
 		try {
-			String sql = "insert into coupon_system.customers values(?,?,?,?,?)";
+			String sql = "insert into coupon_system.customers (first_name, last_name, email, password) values(?,?,?,?)";
 			System.out.println(sql);
 			PreparedStatement pstmt = connectionPool.getConnection().prepareStatement(sql);
 			
-			pstmt.setInt(1, customer.getId());
-			pstmt.setString(2, customer.getFirstName());
-			pstmt.setString(3, customer.getLastName());
-			pstmt.setString(4, customer.getEmail());
-			pstmt.setString(5, customer.getPassword());
+			pstmt.setString(1, customer.getFirstName());
+			pstmt.setString(2, customer.getLastName());
+			pstmt.setString(3, customer.getEmail());
+			pstmt.setString(4, customer.getPassword());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {

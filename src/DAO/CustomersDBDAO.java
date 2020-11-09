@@ -65,7 +65,12 @@ public class CustomersDBDAO implements CustomesDAO {
 	@Override
 	public void updateCustomer(Customer customer) throws CouponSystemException {
 		try {
-			String sql = "update coupon_system.customers set first_name=?, last_name=?, email=?, password=? where id=?";
+			String sql = "update coupon_system.customers"
+					+ " set first_name=?,"
+					+ " last_name=?,"
+					+ " email=?,"
+					+ " password=?"
+					+ " where id=?";
 			PreparedStatement pstmt = connectionPool.getConnection().prepareStatement(sql);
 
 			pstmt.setString(1, customer.getFirstName());

@@ -10,7 +10,7 @@ public class Coupon {
 
 	private int id;
 	private int companyId;
-	private Category category;
+	private int categoryId;
 	private String title;
 	private String description;
 	private Date startDate;
@@ -21,6 +21,35 @@ public class Coupon {
 	
 	
 	
+	public Coupon(int companyId, int categoryId, String title, String description, Date startDate, Date endDate,
+			int amount, double price, String imageUrl) {
+		super();
+		this.companyId = companyId;
+		this.categoryId = categoryId;
+		this.title = title;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.amount = amount;
+		this.price = price;
+		this.imageUrl = imageUrl;
+	}
+
+	public Coupon(int id, int companyId, int categoryId, String title, String description, Date startDate,
+			Date endDate, int amount, double price, String imageUrl) {
+		super();
+		this.id = id;
+		this.companyId = companyId;
+		this.categoryId = categoryId;
+		this.title = title;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.amount = amount;
+		this.price = price;
+		this.imageUrl = imageUrl;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -33,12 +62,12 @@ public class Coupon {
 		this.companyId = companyId;
 	}
 	
-	public Category getCategory() {
-		return category;
+	public int getCategoryId() {
+		return categoryId;
 	}
 	
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 	
 	public String getTitle() {
@@ -103,7 +132,7 @@ public class Coupon {
 	
 	@Override
 	public String toString() {
-		return "Coupon [id=" + id + ", companyId=" + companyId + ", category=" + category + ", title=" + title
+		return "Coupon [id=" + id + ", companyId=" + companyId + ", categoryId=" + categoryId + ", title=" + title
 				+ ", description=" + description + ", startDate=" + startDate + ", endDate=" + endDate + ", amount="
 				+ amount + ", price=" + price + ", imageUrl=" + imageUrl + "]";
 	}

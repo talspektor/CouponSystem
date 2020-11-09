@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import beans.Company;
 import connection.ConnectionPool;
 import excetion.CouponSystemException;
-import utils.Constants;
 
 public class CompaniesDBDAO implements CompaniesDAO {
 	
@@ -28,7 +27,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 	public boolean isCompnyExists(String email, String password) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
 		try {
-			String sql = "select id from coupon_system.companies where email='" + email + "' AND password='" + password + "'";
+			String sql = "select id from coupon_system.companies where email='" + email + "' OR password='" + password + "'";
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			return rs.next();
@@ -68,15 +67,14 @@ public class CompaniesDBDAO implements CompaniesDAO {
 	@Override
 	public void updateCompany(Company company) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		String sql = "update coupon_system.companies set name=?, email=?, password=? where id=?";
+		String sql = "update coupon_system.companies set email=?, password=? where id=?";
 		try {
 			PreparedStatement pstmt;
 			
 			pstmt = connection.prepareStatement(sql);
-			pstmt.setString(1, company.getName());
-			pstmt.setString(2, company.getEmail());
-			pstmt.setString(3, company.getPassword());
-			pstmt.setInt(4, company.getId());
+			pstmt.setString(1, company.getEmail());
+			pstmt.setString(2, company.getPassword());
+			pstmt.setInt(3, company.getId());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CouponSystemException("fail: " + e.getCause(), e);

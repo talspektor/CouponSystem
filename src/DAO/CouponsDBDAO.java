@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import beans.Coupon;
 import connection.ConnectionPool;
 import excetion.CouponSystemException;
-import utils.Constants;
 
 public class CouponsDBDAO implements CouponsDAO {
 	
@@ -161,10 +160,27 @@ public class CouponsDBDAO implements CouponsDAO {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * param: int customerId, int couponId
-	 * Connect coupon to customer in database
+	 * @param companyId
+	 * @throws CouponSystemException
+	 * delete all coupons with the companyId
+	 */
+	//TODO: test it
+	public void deleteCouponsByCoumpanyId(int companyId) throws CouponSystemException {
+		Connection connection = connectionPool.getConnection();
+		String sql = "delete from coupon_system.coupons where company_id=" + companyId;
+		try (Statement statement = connection.createStatement();
+				PreparedStatement pstmt = connection.prepareStatement(sql)) {
+			pstmt.setInt(1, companyId);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new CouponSystemException("fail to delete coupons", e);
+		}
+	}
+
+	/**
+	 * param: int customerId, int couponId Connect coupon to customer in database
 	 */
 	@Override
 	public void addCouponPurchase(int customerId, int couponId) throws CouponSystemException {

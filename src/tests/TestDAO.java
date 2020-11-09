@@ -27,11 +27,11 @@ public class TestDAO {
 			
 			// -----TEST CompaniesDBDAO ---------
 			CompaniesDAO companiesDAO = new CompaniesDBDAO();
-			String name = "company3";
+			String name = "company4";
 			String email = "email4";
 			String password = "passwordNew";
 			Company company = new Company(name, email, password);
-//			companiesDAO.addCompany(company);
+			companiesDAO.addCompany(company);
 //			System.out.println(companiesDAO.isCompnyExists(email, password)); 
 //			companiesDAO.updateCompany(company);
 //			companiesDAO.deleteCompany(1);

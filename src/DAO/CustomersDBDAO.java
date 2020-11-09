@@ -31,7 +31,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			ResultSet rs = stmt.executeQuery(sql);
 			return rs.next();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail: " + e.getCause(), e);
+			throw new CouponSystemException("fail to connect: " + e.getCause(), e);
 		}
 	}
 
@@ -118,7 +118,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			}
 			return customers;
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail: " + e.getCause(), e);
+			throw new CouponSystemException("fail to get all customers: " + e.getCause(), e);
 		}
 	}
 
@@ -143,7 +143,7 @@ public class CustomersDBDAO implements CustomesDAO {
 				return customer;
 			}
 		} catch (SQLException | ClassCastException e) {
-			throw new CouponSystemException("fail: " + e.getCause(), e);
+			throw new CouponSystemException("fail to get customer: " + e.getCause(), e);
 		}
 		return null;
 	}

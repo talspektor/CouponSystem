@@ -3,6 +3,8 @@ package tests;
 
 import DAO.CompaniesDAO;
 import DAO.CompaniesDBDAO;
+import DAO.CouponsDAO;
+import DAO.CouponsDBDAO;
 import DAO.CustomersDBDAO;
 import beans.Company;
 import beans.Customer;
@@ -26,17 +28,21 @@ public class TestDAO {
 //			System.out.println(custometDAO.getOneCustomer(3));
 			
 			// -----TEST CompaniesDBDAO ---------
-			CompaniesDAO companiesDAO = new CompaniesDBDAO();
-			String name = "company4";
-			String email = "email4";
-			String password = "passwordNew";
-			Company company = new Company(name, email, password);
-			companiesDAO.addCompany(company);
+//			CompaniesDAO companiesDAO = new CompaniesDBDAO();
+//			String name = "company4";
+//			String email = "email4";
+//			String password = "passwordNew";
+//			Company company = new Company(name, email, password);
+//			companiesDAO.addCompany(company);
 //			System.out.println(companiesDAO.isCompnyExists(email, password)); 
 //			companiesDAO.updateCompany(company);
 //			companiesDAO.deleteCompany(1);
 //			System.out.println(companiesDAO.getAllCompanies());
 //			System.out.println(companiesDAO.getOneCompany(2));
+			
+			// ------ TEST Coupons ---------
+			CouponsDAO couponsDAO = new CouponsDBDAO();
+			
 					
 		} catch (CouponSystemException e) {
 			// TODO Auto-generated catch block

@@ -146,13 +146,12 @@ public class CompaniesDBDAO implements CompaniesDAO {
 	}
 	
 	private Company getCompany(int companyId, ResultSet rs) throws CouponSystemException {
-		Company company = new Company();
 		try {
-			company.setName(rs.getString("name"));
-			company.setEmail(rs.getString("email"));
-			company.setPassword(rs.getString("password"));
-			company.setId(rs.getInt("id"));
-			return company;
+			String name = rs.getString("name");
+			String email = rs.getString("email");
+			String password = rs.getString("password");
+			int id = rs.getInt("id");
+			return new Company(id, name, email, password);
 		} catch (SQLException e) {
 			throw new CouponSystemException("fail: " + e.getCause(), e);
 		}

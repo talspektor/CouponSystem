@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import beans.Company;
 import beans.Customer;
 import connection.ConnectionPool;
 import excetion.CouponSystemException;
@@ -107,14 +108,8 @@ public class CustomersDBDAO implements CustomesDAO {
 			ResultSet rs = stmt.executeQuery(sql);
 			ArrayList<Customer> customers = new ArrayList<Customer>();
 			while (rs.next()) {
-				
-				Customer customer = new Customer();
-				customer.setId(rs.getInt("id"));
-				customer.setFirstName(rs.getString("first_name"));
-				customer.setLastName(rs.getString("last_name"));
-				customer.setEmail(rs.getString("email"));
-				customer.setPassword(rs.getString("password"));
-				customers.add(customer);
+				int id = rs.getInt("id");
+				customers.add(getCustomer(id, rs));
 			}
 			return customers;
 		} catch (SQLException e) {
@@ -133,19 +128,25 @@ public class CustomersDBDAO implements CustomesDAO {
 			Statement stmt = connectionPool.getConnection().createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {
-				
-				Customer customer = new Customer();
-				customer.setId(customerId);
-				customer.setFirstName(rs.getString("first_name"));
-				customer.setLastName(rs.getString("last_name"));
-				customer.setEmail(rs.getString("email"));
-				customer.setPassword(rs.getString("password"));
-				return customer;
+				return getCustomer(customerId, rs);
 			}
-		} catch (SQLException | ClassCastException e) {
+		} catch (SQLException e) {
 			throw new CouponSystemException("fail to get customer: " + e.getCause(), e);
 		}
 		return null;
+	}
+	
+	private Customer getCustomer(int customerId, ResultSet rs) throws CouponSystemException {
+		try {
+			String firstName = rs.getString("first_name");
+			String lastName = rs.getString("last_name");
+			String email = rs.getString("email");
+			String password = rs.getString("password");
+			int id = rs.getInt("id");
+			return new Customer(id, firstName, lastName, email, password);
+		} catch (SQLException e) {
+			throw new CouponSystemException("fail" + e.getCause(), e);
+		}
 	}
 
 }

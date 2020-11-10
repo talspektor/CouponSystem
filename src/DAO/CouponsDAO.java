@@ -15,4 +15,5 @@ public interface CouponsDAO {
 	public void addCouponPurchase(int customerId, int couponId) throws CouponSystemException;
 	public void deleteCouponPurchase(int customeId, int couponId) throws CouponSystemException;
 	public void deleteCouponsByCoumpanyId(int companyId) throws CouponSystemException;
+	public void deleteCouponPurchaceByCompanyId(int companyId) throws CouponSystemException;
 }

@@ -3,8 +3,8 @@ package facade;
 import java.util.ArrayList;
 import java.util.List;
 
+import DAO.CouponsDBDAO;
 import beans.Company;
-import beans.Coupon;
 import excetion.CouponSystemException;
 
 public class AdminFacade extends ClienFacade {
@@ -38,9 +38,31 @@ public class AdminFacade extends ClienFacade {
 		companiesDAO.updateCompany(company);
 	}
 	
-	public void deleteCoumpany(Company company) throws CouponSystemException {
-		
-		couponsDAO.deleteCouponsByCoumpanyId(company.getId());
-		couponsDAO.deleteCouponPurchase(customeId, couponId);
+	/**
+	 * @param companyId
+	 * @throws CouponSystemException
+	 * delete all company coupon and then delete the company
+	 */ 
+	public void deleteCoumpany(int companyId) throws CouponSystemException {
+		couponsDAO.deleteCouponPurchaceByCompanyId(companyId);
+		couponsDAO.deleteCouponsByCoumpanyId(companyId);
+		companiesDAO.deleteCompany(companyId);
+	}
+	
+	/**
+	 * @return all companies from database
+	 * @throws CouponSystemException
+	 */
+	public List<Company> getAllCompanies() throws CouponSystemException {
+		return companiesDAO.getAllCompanies();
+	}
+	
+	/**
+	 * @param companyId
+	 * @return
+	 * @throws CouponSystemException
+	 */
+	public Company getCompanyById(int companyId) throws CouponSystemException {
+		return companiesDAO.getOneCompany(companyId);
 	}
 }

@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+
 import beans.Coupon;
 import connection.ConnectionPool;
 import excetion.CouponSystemException;
@@ -176,22 +178,38 @@ public class CouponsDBDAO implements CouponsDAO {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CouponSystemException("fail to delete coupons", e);
+		} finally {
+			connectionPool.restoreConnection(connection);
 		}
 	}
+	
+	
+	
+	
+//	public ArrayList<Integer> getAllCouponsIdByCompanyId(int companyId) throws CouponSystemException {
+//		Connection connection = connectionPool.getConnection();
+//		String sql = "select id from coupon_system.coupons where compny_id=" + companyId;
+//		try (Statement statement = connection.createStatement();
+//				ResultSet resultSet = statement.executeQuery(sql)){
+//			List<Integer>
+//			while (resultSet.next()) {
+//				
+//			}
+//		} catch (SQLException e) {
+//			// TODO: handle exception
+//		}
+//	}
 
 	/**
-	 * param: int customerId, int couponId Connect coupon to customer in database
+	 * @param: int customerId, int couponId Connect coupon to customer in database
 	 */
 	@Override
 	public void addCouponPurchase(int customerId, int couponId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		try {
-			String sql = "insert into coupon_system.customers_vs_coupons values(?,?)";
-			PreparedStatement pstmt = connectionPool.getConnection().prepareStatement(sql);
-
+		String sql = "insert into coupon_system.customers_vs_coupons values(?,?)";
+		try (PreparedStatement pstmt = connectionPool.getConnection().prepareStatement(sql);){
 			pstmt.setInt(1, customerId);
 			pstmt.setInt(2, couponId);
-
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CouponSystemException("fail to add coupon purchase: " + e.getCause(), e);
@@ -221,7 +239,29 @@ public class CouponsDBDAO implements CouponsDAO {
 			connectionPool.restoreConnection(connection);
 		}
 	}
-
+	
+	/**
+	 * @param couponId
+	 * @throws CouponSystemException
+	 * delete all coupon purchaces with this coupon id from database 
+	 */
+	//TODO: test it
+	public void deleteCouponPurchaceByCompanyId(int companyId) throws CouponSystemException {
+		Connection connection = connectionPool.getConnection();
+		String sql = "delete coupon_system.coupons, coupon_system.customers_vs_coupons"
+				+ " from coupon_system.coupons"
+				+ " inner join coupon_system.customers_vs_coupons"
+				+ "on coupons.id=customers_vs_coupons.coupon_id"
+				+ "where coupons.company_id=?";
+		try(PreparedStatement pStatement = connection.prepareStatement(sql)) {
+			pStatement.setInt(1, companyId);
+		} catch (SQLException e) {
+			throw new CouponSystemException("fail to delete coupons");
+		} finally {
+			connectionPool.restoreConnection(connection);
+		}
+	}
+	
 	private Coupon getCoupon(int couponId, ResultSet rs) throws CouponSystemException {
 		try {
 			int id = couponId;

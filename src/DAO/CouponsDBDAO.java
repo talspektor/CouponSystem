@@ -145,13 +145,13 @@ public class CouponsDBDAO implements CouponsDAO {
 				+ " where id=?";
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 			preparedStatement.setInt(1, couponId);
-			ResultSet rs = preparedStatement.executeQuery(sql);
+			ResultSet rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				return getCoupon(couponId, rs);
 			}
-			throw new CouponSystemException("Coupon not found.");
+			throw new CouponSystemException("fail to found coupon id=" + couponId);
 		} catch (SQLException | ClassCastException e) {
-			throw new CouponSystemException("fail: " + e.getCause(), e);
+			throw new CouponSystemException("fail to get coupon: " + couponId, e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -191,7 +191,8 @@ public class CouponsDBDAO implements CouponsDAO {
 			pstmt.setInt(2, couponId);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to add coupon purchase: " + e.getCause(), e);
+			throw new CouponSystemException("fail to add coupon purchase customr"
+					+ " id=" + customerId + " coupon id=" + couponId, e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}

@@ -156,7 +156,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			connectionPool.restoreConnection(connection);
 		}
 	}
-
+	
 	/**
 	 * @param companyId
 	 * @throws CouponSystemException
@@ -169,6 +169,7 @@ public class CouponsDBDAO implements CouponsDAO {
 				+ " where company_id=?";
 		try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 			pstmt.setInt(1, companyId);
+			System.out.println(pstmt.toString());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CouponSystemException("fail to delete coupons", e);
@@ -198,7 +199,7 @@ public class CouponsDBDAO implements CouponsDAO {
 	}
 
 	/**
-	 * param: int customerId, int couponId
+	 * @param: int customerId, int couponId
 	 * Remove coupon connection from customer in database  
 	 */
 	@Override
@@ -211,7 +212,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			pstmt.setInt(2, couponId);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to delete coupon purchase: " + e.getCause(), e);
+			throw new CouponSystemException("fail to delete coupon purchase", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -232,8 +233,9 @@ public class CouponsDBDAO implements CouponsDAO {
 				+ "where coupons.company_id=?";
 		try(PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setInt(1, companyId);
+			pStatement.toString();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to delete coupons");
+			throw new CouponSystemException("fail to delete coupons", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}

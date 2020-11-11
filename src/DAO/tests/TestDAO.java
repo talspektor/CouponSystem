@@ -20,29 +20,6 @@ public class TestDAO {
 	public static void main(String[] args) {
 		
 		try {
-			// ----- TEST CustomerDBDAO ------------
-			CustomesDAO custometDAO = new CustomersDBDAO();
-			String email = "tal@spektor_";
-			String password = "password_";
-			String firstName = "firstName_";
-			String lastName = "lastName_";
-			Customer customer = new Customer();
-			for (int i = 0; i < 20; i++) {
-				email = "tal@spektor_" + i;
-				password = "password_" + i;
-				firstName = "firstName_" + i;
-				lastName = "lastName_" + i;
-				customer = new Customer(firstName, lastName, email, password);
-				custometDAO.addCustomer(customer);
-				
-			}
-			System.out.println(custometDAO.isCustomerExists(email, password));
-			customer.setEmail("new_email");
-			custometDAO.updateCustomer(customer);
-			custometDAO.deleteCustomer(2);
-			System.out.println(custometDAO.getAllCustomers());
-			System.out.println(custometDAO.getOneCustomer(3));
-			
 			// -----TEST CompaniesDBDAO ---------
 			CompaniesDAO companiesDAO = new CompaniesDBDAO();
 			String companyName = "company_";
@@ -56,7 +33,7 @@ public class TestDAO {
 				company = new Company(companyName, companyEmail, companyPassword);
 				companiesDAO.addCompany(company);
 			}
-			System.out.println(companiesDAO.isCompnyExists(email, password));
+			System.out.println(companiesDAO.isCompnyExists(companyEmail, companyPassword));
 			company.setEmail("new_email");
 			companiesDAO.updateCompany(company);
 			companiesDAO.deleteCompany(2);

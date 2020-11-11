@@ -2,11 +2,16 @@ package facade;
 
 import java.util.List;
 
+import DAO.CompaniesDBDAO;
 import beans.Company;
 import beans.Customer;
 import excetion.CouponSystemException;
 
 public class AdminFacade extends ClienFacade {
+	
+	public AdminFacade() throws CouponSystemException {
+		companiesDAO = new CompaniesDBDAO();
+	}
 	
 	/**
 	 * @param email
@@ -26,6 +31,9 @@ public class AdminFacade extends ClienFacade {
 	public void addCompany(Company company) throws CouponSystemException {
 		if (!companiesDAO.isCompnyExists(company.getEmail(), company.getPassword()))
 		companiesDAO.addCompany(company);
+		else {
+			throw new CouponSystemException("coumpany with email=" + company.getEmail() + " and password=" + company.getPassword() + " already in database.");
+		}
 	}
 	
 	/**

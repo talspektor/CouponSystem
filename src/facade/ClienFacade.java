@@ -5,7 +5,7 @@ import DAO.CouponsDAO;
 import DAO.CustomesDAO;
 
 public abstract class ClienFacade {
-	CustomesDAO costCustomesDAO;
+	CustomesDAO customerDAO;
 	CompaniesDAO companiesDAO;
 	CouponsDAO couponsDAO;
 }

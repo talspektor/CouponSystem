@@ -1,10 +1,9 @@
 package facade;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import DAO.CouponsDBDAO;
 import beans.Company;
+import beans.Customer;
 import excetion.CouponSystemException;
 
 public class AdminFacade extends ClienFacade {
@@ -59,10 +58,59 @@ public class AdminFacade extends ClienFacade {
 	
 	/**
 	 * @param companyId
-	 * @return
+	 * @return the company with that id
 	 * @throws CouponSystemException
 	 */
 	public Company getCompanyById(int companyId) throws CouponSystemException {
 		return companiesDAO.getOneCompany(companyId);
+	}
+	
+	/**
+	 * @param customer
+	 * @throws CouponSystemException
+	 * add customer to database if email is unique
+	 */
+	public void addCustomer(Customer customer) throws CouponSystemException {
+		if(!customerDAO.isEmailExisted(customer.getEmail())) {
+			customerDAO.addCustomer(customer);
+		} else {
+			throw new CouponSystemException("you can't add customes, email must be unique");
+		}
+	}
+	
+	/**
+	 * @param customer
+	 * @throws CouponSystemException
+	 * update customer in database 
+	 */
+	public void updateCustomer(Customer customer) throws CouponSystemException {
+		customerDAO.updateCustomer(customer);
+	}
+	
+	/**
+	 * @param customerId
+	 * @throws CouponSystemException
+	 * delete customer coupon purchaces and delete costomer from database
+	 */
+	public void deleteCustomer(int customerId) throws CouponSystemException {
+		couponsDAO.deleteCouponPurchaceByCustomerId(customerId);
+		customerDAO.deleteCustomer(customerId);
+	}
+	
+	/**
+	 * @return list of all the customers from database
+	 * @throws CouponSystemException
+	 */
+	public List<Customer> getAllCustomer() throws CouponSystemException {
+		return customerDAO.getAllCustomers();
+	}
+	
+	/**
+	 * @param customerId
+	 * @return the customer with the customer id from database
+	 * @throws CouponSystemException
+	 */
+	public Customer getCustomer(int customerId) throws CouponSystemException {
+		return customerDAO.getOneCustomer(customerId);
 	}
 }

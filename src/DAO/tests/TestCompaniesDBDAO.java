@@ -6,7 +6,7 @@ import DAO.CouponsDAO;
 import DAO.CouponsDBDAO;
 import beans.Company;
 
-public class TestCompmyDBDAO {
+public class TestCompaniesDBDAO {
 	
 	public static void main(String[] args) {
 		// -----TEST CompaniesDBDAO ---------

@@ -76,6 +76,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			pstmt.setString(1, company.getEmail());
 			pstmt.setString(2, company.getPassword());
 			pstmt.setInt(3, company.getId());
+			System.out.println(pstmt.toString());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CouponSystemException("fail to update compny.", e);
@@ -95,7 +96,6 @@ public class CompaniesDBDAO implements CompaniesDAO {
 				+ " where id=?";
 		try (PreparedStatement pstmt = connection.prepareStatement(sql)){
 			pstmt.setInt(1, companyId);
-			System.out.println(pstmt.toString());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CouponSystemException("fail to delete company.", e);

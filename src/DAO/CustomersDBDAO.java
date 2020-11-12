@@ -53,7 +53,7 @@ public class CustomersDBDAO implements CustomesDAO {
 				+ " where email=?";
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setString(1, email);
-			ResultSet resultSet = pStatement.executeQuery(sql);
+			ResultSet resultSet = pStatement.executeQuery();
 			return resultSet.next();
 		} catch (SQLException e) {
 			throw new CouponSystemException("fail to connect", e);

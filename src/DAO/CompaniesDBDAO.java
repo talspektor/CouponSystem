@@ -35,7 +35,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			ResultSet rs = pStatement.executeQuery();
 			return rs.next();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to chack if company exists", e);
+			throw new CouponSystemException("isCompnyExists fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}

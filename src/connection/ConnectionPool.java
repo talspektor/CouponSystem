@@ -24,16 +24,23 @@ public class ConnectionPool {
 
 	private static ConnectionPool instance;
 
+	/**
+	 * @throws CouponSystemException
+	 */
 	private ConnectionPool() throws CouponSystemException {
 		for (int i = 0; i < MAX; i++) {
 			try {
 				connections.add(DriverManager.getConnection(url, "test", "testpassword"));
 			} catch (SQLException e) {
-				throw new CouponSystemException("fail: " + e.getCause(), e);
+				throw new CouponSystemException("ConnectionPool: fail to construct" , e);
 			}
 		}
 	}
 	
+	/**
+	 * @return ConnectionPool
+	 * @throws CouponSystemException
+	 */
 	public static ConnectionPool getInstance() throws CouponSystemException {
 		if (instance == null) {
 			instance = new ConnectionPool();
@@ -49,7 +56,7 @@ public class ConnectionPool {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				new CouponSystemException("fail: " + e.getCause(), e);
+				new CouponSystemException("getConnection fail", e);
 			}
 		}
 		Iterator<Connection> it = connections.iterator();
@@ -73,7 +80,7 @@ public class ConnectionPool {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				new CouponSystemException("fail: " + e.getCause(), e);
+				new CouponSystemException("closeAllConnections fail", e);
 			}
 		}
 	}

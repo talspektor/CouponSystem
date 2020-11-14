@@ -2,21 +2,19 @@ package facade;
 
 import java.util.List;
 
-import DAO.CompaniesDBDAO;
-import DAO.CouponsDBDAO;
-import DAO.CustomersDBDAO;
+import DAO.CompaniesDAO;
+import DAO.CouponsDAO;
+import DAO.CustomesDAO;
 import beans.Company;
 import beans.Customer;
 import excetion.CouponSystemException;
 
 public class AdminFacade extends ClienFacade {
 	
-	public AdminFacade() throws CouponSystemException {
-		companiesDAO = new CompaniesDBDAO();
-		couponsDAO = new CouponsDBDAO();
-		customerDAO = new CustomersDBDAO();
+	public AdminFacade(CustomesDAO customerDAO, CompaniesDAO companiesDAO, CouponsDAO couponsDAO) {
+		super(customerDAO, companiesDAO, couponsDAO);
 	}
-	
+
 	/**
 	 * @param email
 	 * @param password
@@ -38,7 +36,9 @@ public class AdminFacade extends ClienFacade {
 		if (!companiesDAO.isCompnyExists(company.getEmail(), company.getPassword()))
 		companiesDAO.addCompany(company);
 		else {
-			throw new CouponSystemException("coumpany with email=" + company.getEmail() + " and password=" + company.getPassword() + " already in database.");
+			System.out.println("coumpany with email=" + company.getEmail()
+			+ " and password=" + company.getPassword()
+			+ " already in database.");
 		}
 	}
 	
@@ -48,7 +48,7 @@ public class AdminFacade extends ClienFacade {
 	 * update company in database
 	 */
 	public void updateCompany(Company company) throws CouponSystemException {
-		System.out.println("AdminFacade updateCompany");
+		System.out.println("Admin updateCompany");
 		companiesDAO.updateCompany(company);
 	}
 	
@@ -90,7 +90,7 @@ public class AdminFacade extends ClienFacade {
 	 */
 	public void addCustomer(Customer customer) throws CouponSystemException {
 		System.out.println("Admin addCustomer");
-		if(!customerDAO.isEmailExisted(customer.getEmail())) {
+		if(!customerDAO.isCustomerExists(customer.getEmail())) {
 			customerDAO.addCustomer(customer);
 		} else {
 			throw new CouponSystemException("you can't add customes, email must be unique");

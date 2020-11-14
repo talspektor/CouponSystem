@@ -35,7 +35,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			ResultSet rs = pStatement.executeQuery();
 			return rs.next();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to check if customer exists", e);
+			throw new CouponSystemException("isCustomerExists. fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -43,11 +43,11 @@ public class CustomersDBDAO implements CustomesDAO {
 	
 	/**
 	 * @param email
-	 * @return
+	 * @return true if customer is in database 
 	 * @throws CouponSystemException
 	 */
 	//TODO: test it
-	public boolean isEmailExisted(String email) throws CouponSystemException {
+	public boolean isCustomerExists(String email) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
 		String sql = "select email from coupon_system.customers"
 				+ " where email=?";
@@ -56,7 +56,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			ResultSet resultSet = pStatement.executeQuery();
 			return resultSet.next();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to connect", e);
+			throw new CouponSystemException("isCustomerExists. fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -80,7 +80,7 @@ public class CustomersDBDAO implements CustomesDAO {
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to add customer.", e);
+			throw new CouponSystemException("addCustomer fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -108,7 +108,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			System.out.println(pstmt.toString());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to update customer.", e);
+			throw new CouponSystemException("updateCustomer fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}

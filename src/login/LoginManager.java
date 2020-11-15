@@ -11,7 +11,7 @@ import facade.CustomerFacade;
 
 /**
  * @author tals
- *
+ * singleton
  */
 public class LoginManager {
 	
@@ -25,6 +25,13 @@ public class LoginManager {
 		return  instance;
 	}
 	
+	/**
+	 * @param email
+	 * @param password
+	 * @param clientType
+	 * @return the facade
+	 * @throws CouponSystemException
+	 */
 	public ClienFacade login(String email, String password, ClientType clientType) throws CouponSystemException {
 		switch (clientType) {
 		case ADMINISTRATOR:

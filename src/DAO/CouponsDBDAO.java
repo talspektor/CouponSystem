@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import beans.Coupon;
 import connection.ConnectionPool;
@@ -129,6 +130,25 @@ public class CouponsDBDAO implements CouponsDAO {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CouponSystemException("deleteCoupon fail", e);
+		} finally {
+			connectionPool.restoreConnection(connection);
+		}
+	}
+	
+	/**
+	 * @throws CouponSystemException
+	 * delete all expierd coupons from database
+	 */
+	//TODO: test
+	public void deleteExpierdCoupons() throws CouponSystemException {
+		Connection connection = connectionPool.getConnection();
+		String sql = "delete * from coupon_system.coupons"
+				+ " where end_date<?";
+		try (PreparedStatement pStatement = connection.prepareStatement(sql)){
+			pStatement.setDate(1, new Date(Calendar.getInstance().getTime().getTime()));
+			pStatement.executeUpdate();
+		} catch (SQLException e) {
+			throw new CouponSystemException("deleteExpierdCoupons fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}

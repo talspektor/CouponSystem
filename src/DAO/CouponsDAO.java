@@ -7,6 +7,7 @@ import excetion.CouponSystemException;
 
 public interface CouponsDAO {
 	
+	public void deleteExpierdCoupons() throws CouponSystemException;
 	public boolean isCouponExists(String title, int companyId) throws CouponSystemException;
 	public void addCoupon(Coupon coupon) throws CouponSystemException;
 	public void updateCoupon(Coupon coupon) throws CouponSystemException;

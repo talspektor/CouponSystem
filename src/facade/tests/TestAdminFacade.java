@@ -1,6 +1,8 @@
 package facade.tests;
 
 import DAO.CompaniesDBDAO;
+import DAO.CouponsDBDAO;
+import DAO.CustomersDBDAO;
 import beans.Company;
 import beans.Customer;
 import excetion.CouponSystemException;
@@ -11,7 +13,7 @@ public class TestAdminFacade {
 	public static void main(String[] args) {
 		
 		try {
-			AdminFacade facade = new AdminFacade();
+			AdminFacade facade = new AdminFacade(new CustomersDBDAO(), new CompaniesDBDAO(), new CouponsDBDAO());
 			String name = "name";
 			String email = "com.admin@admin1";
 			String password = "admin";

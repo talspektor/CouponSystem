@@ -13,4 +13,6 @@ public interface CustomesDAO {
 	public void deleteCustomer(int customerId) throws CouponSystemException;
 	public ArrayList<Customer> getAllCustomers() throws CouponSystemException;
 	public Customer getOneCustomer(int customerId) throws CouponSystemException;
+	public Customer getCustomerByEmailAndPassword(String email, String password) throws CouponSystemException;
+	public boolean isCouponAlreadyPurchased(int customerId, int couponId) throws CouponSystemException;
 }

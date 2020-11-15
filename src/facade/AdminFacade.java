@@ -2,19 +2,18 @@ package facade;
 
 import java.util.List;
 
-import DAO.CompaniesDBDAO;
-import DAO.CouponsDBDAO;
-import DAO.CustomersDBDAO;
+import DAO.CompaniesDAO;
+import DAO.CouponsDAO;
+import DAO.CustomesDAO;
 import beans.Company;
 import beans.Customer;
 import excetion.CouponSystemException;
 
 public class AdminFacade extends ClienFacade {
 	
-	public AdminFacade() throws CouponSystemException {
-		companiesDAO = new CompaniesDBDAO();
-		couponsDAO = new CouponsDBDAO();
-		customerDAO = new CustomersDBDAO();
+
+	public AdminFacade(CustomesDAO customerDAO, CompaniesDAO companiesDAO, CouponsDAO couponsDAO) {
+		super(customerDAO, companiesDAO, couponsDAO);
 	}
 	
 	/**

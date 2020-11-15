@@ -2,6 +2,9 @@ package facade.tests;
 
 import java.sql.Date;
 
+import DAO.CompaniesDBDAO;
+import DAO.CouponsDBDAO;
+import DAO.CustomersDBDAO;
 import beans.Coupon;
 import excetion.CouponSystemException;
 import facade.CompanyFacade;
@@ -11,7 +14,7 @@ public class TestCompanyFacade {
 	public static void main(String[] args) {
 		
 		try {
-			CompanyFacade facade = new CompanyFacade();
+			CompanyFacade facade = new CompanyFacade(new CustomersDBDAO(), new CompaniesDBDAO(), new CouponsDBDAO());
 			facade.login("email2", "password2");
 			int categoryId = 1;
 			String title = "title1";

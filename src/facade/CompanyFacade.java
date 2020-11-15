@@ -2,8 +2,9 @@ package facade;
 
 import java.util.ArrayList;
 
-import DAO.CompaniesDBDAO;
-import DAO.CouponsDBDAO;
+import DAO.CompaniesDAO;
+import DAO.CouponsDAO;
+import DAO.CustomesDAO;
 import beans.Category;
 import beans.Company;
 import beans.Coupon;
@@ -17,9 +18,8 @@ public class CompanyFacade extends ClienFacade {
 	
 	private int companyId;
 	
-	public CompanyFacade() throws CouponSystemException {
-		companiesDAO = new CompaniesDBDAO();
-		couponsDAO = new CouponsDBDAO();
+	public CompanyFacade(CustomesDAO customerDAO, CompaniesDAO companiesDAO, CouponsDAO couponsDAO) {
+		super(customerDAO, companiesDAO, couponsDAO);
 	}
 	
 	public int getCompanyId() {

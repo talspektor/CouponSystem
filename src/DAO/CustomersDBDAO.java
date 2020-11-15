@@ -146,8 +146,7 @@ public class CustomersDBDAO implements CustomesDAO {
 				ResultSet rs = stmt.executeQuery(sql)) {
 			ArrayList<Customer> customers = new ArrayList<Customer>();
 			while (rs.next()) {
-				int id = rs.getInt("id");
-				customers.add(getCustomer(id, rs));
+				customers.add(getCustomer(rs));
 			}
 			return customers;
 		} catch (SQLException e) {
@@ -160,15 +159,18 @@ public class CustomersDBDAO implements CustomesDAO {
 	/**
 	 * @param: int customerId
 	 * @return customer where id = customerId
+	 * if not found return null
 	 */
 	@Override
 	public Customer getOneCustomer(int customerId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		String sql = "select * from coupon_system.customers where id='" + customerId + "'";
-		try (Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)) {
+		String sql = "select * from coupon_system.customers"
+				+ " where id=?";
+		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
+			pStatement.setInt(1, customerId);
+			ResultSet rs = pStatement.executeQuery();
 			if (rs.next()) {
-				return getCustomer(customerId, rs);
+				return getCustomer(rs);
 			}
 			System.out.println("Customer not found.");
 			return null;
@@ -179,7 +181,58 @@ public class CustomersDBDAO implements CustomesDAO {
 		}
 	}
 	
-	private Customer getCustomer(int customerId, ResultSet rs) throws CouponSystemException {
+	/**
+	 *@param email
+	 *@param password
+	 *@return Customer from database
+	 *if not found return null
+	 */
+	@Override
+	public Customer getCustomerByEmailAndPassword(String email, String password) throws CouponSystemException {
+		Connection connection = connectionPool.getConnection();
+		String sql = "select * from coupon_system.customers"
+				+ " where email=? and"
+				+ "password=?";
+		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
+			pStatement.setString(1, email);
+			pStatement.setString(2, password);
+			ResultSet rs = pStatement.executeQuery();
+			if (rs.next()) {
+				return getCustomer(rs);
+			}
+			System.out.println("Customer not found.");
+			return null;
+		} catch (SQLException e) {
+			throw new CouponSystemException("getOneCustomer fail", e);
+		} finally {
+			connectionPool.restoreConnection(connection);
+		}
+	}
+	
+	/**
+	 *@param customerId
+	 *@param couponId
+	 *@return true if coupon is already been purchased
+	 */
+	@Override
+	public boolean isCouponAlreadyPurchased(int customerId, int couponId) throws CouponSystemException {
+		Connection connection = connectionPool.getConnection();
+		String sql = "select * from coupon_system.customers_vs_coupons"
+				+ " where customer_id=? and"
+				+ "coupon_id=?";
+		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
+			pStatement.setInt(1, customerId);
+			pStatement.setInt(2, couponId);
+			ResultSet rs = pStatement.executeQuery();
+			return rs.next();
+		} catch (SQLException e) {
+			throw new CouponSystemException("isCouponAlreadyPurchased fail", e);
+		} finally {
+			connectionPool.restoreConnection(connection);
+		}
+	}
+	
+	private Customer getCustomer(ResultSet rs) throws CouponSystemException {
 		try {
 			String firstName = rs.getString("first_name");
 			String lastName = rs.getString("last_name");

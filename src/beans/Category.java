@@ -5,17 +5,24 @@ package beans;
  *
  */
 public enum Category {
-	FOOD(1),
-	ELECTRICITY(2),
-	RESTAURANT(3),
-	VACATION(4);
-	
-	private final int value;
-	Category(final int newValue) {
-		value = newValue;
+	FOOD(1), VACATION(2), SPORTS(3), ELECTRICITY(4);
+
+	private Category(int id) {
+		this.id = id;
 	}
-	
-	public int getValue() {
-		return value;
+
+	private int id;
+
+	public static Category getCategory(int id) {
+		for (Category c : Category.values()) {
+			if (c.id == id) {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

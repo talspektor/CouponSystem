@@ -1,10 +1,12 @@
 package facade;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import DAO.CompaniesDAO;
 import DAO.CouponsDAO;
 import DAO.CustomesDAO;
+import beans.Category;
 import beans.Coupon;
 import beans.Customer;
 import excetion.CouponSystemException;
@@ -34,29 +36,86 @@ public class CustomerFacade extends ClienFacade {
 		return true;
 	}
 	
+	/**
+	 * @param couponId
+	 * @throws CouponSystemException
+	 * purchase coupon if valid for customer
+	 */
 	public void purchaseCoupon(int couponId) throws CouponSystemException {
-		//TODO: 
-		// if end date > current date, 
 		//validate coupon not purchase before
-		if(customerDAO.isCouponAlreadyPurchased(id, couponId)) { 
-			System.out.println("customer already purchase this coupon");
-			return;
-		}
+		if (!validateCoupnNotPurchaseAlready(couponId)) { return; }
 		// validate coupon is available
 		Coupon coupon = couponsDAO.getOneCoupon(couponId);
-		if(!(coupon.getAmount()>0)) { 
-			System.out.println("coupon amout is not available");
-			return;
-		}
-		// validate coupon experation
-		if (coupon.getEndDate().compareTo(new Date()) < 0) {
-			System.out.println("coupon expierd");
-			return;
-		}
+		if (!validateCouponAvailable(coupon)) { return; }
+		// validate coupon expiration
+		if (!validateCouponExpiration(coupon)) { return; }
 		couponsDAO.addCouponPurchase(id, couponId);
 		int amount = coupon.getAmount();
 		coupon.setAmount(amount--);
 		couponsDAO.updateCoupon(coupon);
+	}
+	
+	/**
+	 * @return all customer coupons
+	 * @throws CouponSystemException
+	 */
+	public ArrayList<Coupon> getCoupons() throws CouponSystemException {
+		return couponsDAO.getAllCustomerCoupons(id);
+	}
+	
+	/**
+	 * @param category
+	 * @return all customer coupon for given category
+	 * @throws CouponSystemException
+	 */
+	public ArrayList<Coupon> getCoupons(Category category) throws CouponSystemException {
+		return couponsDAO.getAllCustomerCouponsForCategoty(category.getId(), id);
+	}
+	
+	public ArrayList<Coupon> getCoupons(double maxPrice) throws CouponSystemException {
+		return couponsDAO.getAllCompanyCouponsMaxPrice(maxPrice, id);
+	}
+	
+	/**
+	 * @return the customer that login
+	 * @throws CouponSystemException
+	 */
+	public Customer getCustomerDetails() throws CouponSystemException {
+		return customerDAO.getOneCustomer(id);
+	}
+	
+	// ---------COUPON VALIDATION --------------
+	
+	/**
+	 * @param couponId
+	 * @return true if coupon isn't already purchase
+	 * @throws CouponSystemException
+	 */
+	private boolean validateCoupnNotPurchaseAlready(int couponId) throws CouponSystemException {
+		if(!customerDAO.isCouponAlreadyPurchased(id, couponId)) { return true; }
+		System.out.println("customer already purchase this coupon");
+		return false;
+	}
+	
+	
+	/**
+	 * @param coupon
+	 * @return true if coupon is available
+	 */
+	private boolean validateCouponAvailable(Coupon coupon) {
+		if(coupon.getAmount()>0) { return true; }
+		System.out.println("coupon is not available");
+		return false;
+	}
+	
+	/**
+	 * @param coupon
+	 * @return true if coupon is not expired
+	 */
+	private boolean validateCouponExpiration(Coupon coupon) {
+		if (coupon.getEndDate().compareTo(new Date()) > 0) { return true; }
+		System.out.println("coupon expierd");
+		return false;
 	}
 
 }

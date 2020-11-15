@@ -231,6 +231,83 @@ public class CouponsDBDAO implements CouponsDAO {
 			throw new CouponSystemException("getAllCompanyCouponsByCategory fail", e);
 		}
 	}
+	
+	/**
+	 * @param customerId
+	 * @return all coupons for customer with the given customerId
+	 * @throws CouponSystemException
+	 */
+	@Override
+	public ArrayList<Coupon> getAllCustomerCoupons(int customerId) throws CouponSystemException {
+		Connection connection = connectionPool.getConnection();
+		String sql = "select * from coupon_system.coupons"
+				+ " where (select coupon_id"
+				+ " from coupon_system.customers_vs_coupons"
+				+ " where customer_id=?)";
+		try (PreparedStatement pStatement = connection.prepareStatement(sql)){
+			pStatement.setInt(1, customerId);
+			ResultSet resultSet = pStatement.executeQuery();
+					ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+			while (resultSet.next()) {
+				coupons.add(getCoupon(resultSet));
+			}
+			return coupons;
+		} catch (SQLException e) {
+			throw new CouponSystemException("getAllCustomerCoupons fail", e);
+		}
+	}
+	
+	/**
+	 * @param categoryId
+	 * @return all coupons for customer with given id and category
+	 * @throws CouponSystemException
+	 */
+	public ArrayList<Coupon> getAllCustomerCouponsForCategoty(int categoryId, int customerId) throws CouponSystemException {
+		Connection connection = connectionPool.getConnection();
+		String sql = "select * from coupon_system.coupons"
+				+ " where (select coupon_id"
+				+ " from coupon_system.customers_vs_coupons"
+				+ " where category_id=? and"
+				+ "customerId=?)";
+		try (PreparedStatement pStatement = connection.prepareStatement(sql)){
+			pStatement.setInt(1, categoryId);
+			pStatement.setInt(2, customerId);
+			ResultSet resultSet = pStatement.executeQuery();
+					ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+			while (resultSet.next()) {
+				coupons.add(getCoupon(resultSet));
+			}
+			return coupons;
+		} catch (SQLException e) {
+			throw new CouponSystemException("getAllCustomerCouponsForCategoty fail", e);
+		}
+	}
+	
+	/**
+	 * @param maxPrice
+	 * @param customerId
+	 * @return all coupons for customer up to maxPrice
+	 * @throws CouponSystemException
+	 */
+	public ArrayList<Coupon> getAllCustomerCouponsUpToMaxPrice(double maxPrice, int customerId) throws CouponSystemException {
+		Connection connection = connectionPool.getConnection();
+		String sql = "select * from coupon_system.coupons"
+				+ " where (select coupon_id"
+				+ " from coupon_system.customers_vs_coupons"
+				+ " where customerId=?) and price<?";
+		try (PreparedStatement pStatement = connection.prepareStatement(sql)){
+			pStatement.setInt(1, customerId);
+			pStatement.setDouble(2, maxPrice);
+			ResultSet resultSet = pStatement.executeQuery();
+					ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+			while (resultSet.next()) {
+				coupons.add(getCoupon(resultSet));
+			}
+			return coupons;
+		} catch (SQLException e) {
+			throw new CouponSystemException("getAllCustomerCouponsUpToMaxPrice fail", e);
+		}
+	}
 
 	/**
 	 * @param: int couponId

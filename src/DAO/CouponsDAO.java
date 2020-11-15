@@ -22,4 +22,6 @@ public interface CouponsDAO {
 	public ArrayList<Coupon> getAllCompanyCoupons(int companyId) throws CouponSystemException;
 	public ArrayList<Coupon> getAllCompanyCouponsByCategory(int categoryId, int companyId) throws CouponSystemException;
 	public ArrayList<Coupon> getAllCompanyCouponsMaxPrice(double maxPrice, int companyId) throws CouponSystemException;
+	public ArrayList<Coupon> getAllCustomerCoupons(int customerId) throws CouponSystemException;
+	public ArrayList<Coupon> getAllCustomerCouponsForCategoty(int categoryId, int customerId) throws CouponSystemException;
 }

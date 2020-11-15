@@ -96,7 +96,7 @@ public class CompanyFacade extends ClienFacade {
 	 */
 	public ArrayList<Coupon> getCompanyCoupons(Category category) throws CouponSystemException {
 		System.out.println("CompanyFaceade getCompanyCoupons");
-		int categoryId = category.getValue();
+		int categoryId = category.getId();
 		return couponsDAO.getAllCompanyCouponsByCategory(categoryId, companyId);
 	}
 	

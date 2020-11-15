@@ -7,6 +7,7 @@ import excetion.CouponSystemException;
 
 public interface CouponsDAO {
 	
+	public boolean isCouponExists(String title, int companyId) throws CouponSystemException;
 	public void addCoupon(Coupon coupon) throws CouponSystemException;
 	public void updateCoupon(Coupon coupon) throws CouponSystemException;
 	public void deleteCoupon(int couponId) throws CouponSystemException;
@@ -17,4 +18,8 @@ public interface CouponsDAO {
 	public void deleteCouponsByCoumpanyId(int companyId) throws CouponSystemException;
 	public void deleteCouponPurchaceByCompanyId(int companyId) throws CouponSystemException;
 	public void deleteCouponPurchaceByCustomerId(int customerId) throws CouponSystemException;
+	public void deleteCoutonPurchaceByCouponId(int couponId) throws CouponSystemException;
+	public ArrayList<Coupon> getAllCompanyCoupons(int companyId) throws CouponSystemException;
+	public ArrayList<Coupon> getAllCompanyCouponsByCategory(int categoryId, int companyId) throws CouponSystemException;
+	public ArrayList<Coupon> getAllCompanyCouponsMaxPrice(double maxPrice, int companyId) throws CouponSystemException;
 }

@@ -22,8 +22,8 @@ public class AdminFacade extends ClienFacade {
 	 * @param password
 	 * @return return true if values are currect
 	 */
-	public boolean login(String email,
-			String password) {
+	@Override
+	public boolean login(String email, String password) {
 		System.out.println("Admin login");
 		return email == "com.admin@admin" && password == "admin";
 	}
@@ -35,21 +35,27 @@ public class AdminFacade extends ClienFacade {
 	 */
 	public void addCompany(Company company) throws CouponSystemException {
 		System.out.println("Admin addCompany");
-		if (!companiesDAO.isCompnyExists(company.getEmail(), company.getPassword()))
+		if (companiesDAO.isCompnyEmailUnique(company.getEmail())&&
+				companiesDAO.isCompanyPasswordUnique(company.getPassword()))
 		companiesDAO.addCompany(company);
 		else {
-			throw new CouponSystemException("coumpany with email=" + company.getEmail() + " and password=" + company.getPassword() + " already in database.");
+			System.out.println("addCompany fail: coumpany with"
+					+ " email=" + company.getEmail()
+					+ " or password=" + company.getPassword() + " is not unique.");
 		}
 	}
 	
 	/**
 	 * @param company
 	 * @throws CouponSystemException
-	 * update company in database
+	 * update company in database (don't change company name) 
 	 */
 	public void updateCompany(Company company) throws CouponSystemException {
 		System.out.println("AdminFacade updateCompany");
-		companiesDAO.updateCompany(company);
+		Company dbCompany = companiesDAO.getCompany(company.getEmail(), company.getPassword());
+		dbCompany.setEmail(company.getEmail());
+		dbCompany.setPassword(company.getPassword());
+		companiesDAO.updateCompany(dbCompany);
 	}
 	
 	/**
@@ -90,10 +96,10 @@ public class AdminFacade extends ClienFacade {
 	 */
 	public void addCustomer(Customer customer) throws CouponSystemException {
 		System.out.println("Admin addCustomer");
-		if(!customerDAO.isEmailExisted(customer.getEmail())) {
+		if(!customerDAO.isEmailExists(customer.getEmail())) {
 			customerDAO.addCustomer(customer);
 		} else {
-			throw new CouponSystemException("you can't add customes, email must be unique");
+			System.out.println("you can't add customes, email must be unique");
 		}
 	}
 	

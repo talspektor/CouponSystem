@@ -35,7 +35,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			ResultSet rs = pStatement.executeQuery();
 			return rs.next();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to check if customer exists", e);
+			throw new CouponSystemException("isCustomerExists fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -43,11 +43,12 @@ public class CustomersDBDAO implements CustomesDAO {
 	
 	/**
 	 * @param email
-	 * @return
+	 * @return true if email exists
 	 * @throws CouponSystemException
 	 */
 	//TODO: test it
-	public boolean isEmailExisted(String email) throws CouponSystemException {
+	@Override
+	public boolean isEmailExists(String email) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
 		String sql = "select email from coupon_system.customers"
 				+ " where email=?";
@@ -56,7 +57,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			ResultSet resultSet = pStatement.executeQuery();
 			return resultSet.next();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to connect", e);
+			throw new CouponSystemException("isEmailExists fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -80,7 +81,7 @@ public class CustomersDBDAO implements CustomesDAO {
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to add customer.", e);
+			throw new CouponSystemException("addCustomer fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -108,7 +109,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			System.out.println(pstmt.toString());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to update customer.", e);
+			throw new CouponSystemException("updateCustomer fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -128,7 +129,7 @@ public class CustomersDBDAO implements CustomesDAO {
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to delete customer.", e);
+			throw new CouponSystemException("deleteCustomer fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -150,7 +151,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			}
 			return customers;
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to get all customers.", e);
+			throw new CouponSystemException("getAllCustomers fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -169,9 +170,10 @@ public class CustomersDBDAO implements CustomesDAO {
 			if (rs.next()) {
 				return getCustomer(customerId, rs);
 			}
-			throw new CouponSystemException("Customer not found.");
+			System.out.println("Customer not found.");
+			return null;
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to get customer", e);
+			throw new CouponSystemException("getOneCustomer fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -186,7 +188,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			int id = rs.getInt("id");
 			return new Customer(id, firstName, lastName, email, password);
 		} catch (SQLException e) {
-			throw new CouponSystemException("fail to get customer.", e);
+			throw new CouponSystemException("getCustomer fail", e);
 		}
 	}
 

@@ -3,6 +3,7 @@ package job;
 import DAO.CouponsDAO;
 import excetion.CouponSystemException;
 
+
 public class CouponExpirationDailyJob implements Runnable {
 
 	private CouponsDAO couponsDAO;
@@ -13,8 +14,6 @@ public class CouponExpirationDailyJob implements Runnable {
 		this.couponsDAO = couponsDAO;
 		this.quit = false;
 	}
-
-
 
 	@Override
 	public void run() {
@@ -27,7 +26,7 @@ public class CouponExpirationDailyJob implements Runnable {
 	}
 	
 	public void stop() {
-		
+		this.quit = false;
 	}
 
 }

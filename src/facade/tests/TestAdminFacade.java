@@ -14,6 +14,7 @@ public class TestAdminFacade {
 		
 		try {
 			AdminFacade facade = new AdminFacade(new CustomersDBDAO(), new CompaniesDBDAO(), new CouponsDBDAO());
+			
 			String name = "name";
 			String email = "com.admin@admin1";
 			String password = "admin";

@@ -11,11 +11,10 @@ import excetion.CouponSystemException;
 
 public class AdminFacade extends ClienFacade {
 	
-
 	public AdminFacade(CustomesDAO customerDAO, CompaniesDAO companiesDAO, CouponsDAO couponsDAO) {
 		super(customerDAO, companiesDAO, couponsDAO);
 	}
-	
+
 	/**
 	 * @param email
 	 * @param password
@@ -41,6 +40,9 @@ public class AdminFacade extends ClienFacade {
 			System.out.println("addCompany fail: coumpany with"
 					+ " email=" + company.getEmail()
 					+ " or password=" + company.getPassword() + " is not unique.");
+			System.out.println("coumpany with email=" + company.getEmail()
+			+ " and password=" + company.getPassword()
+			+ " already in database.");
 		}
 	}
 	
@@ -55,6 +57,8 @@ public class AdminFacade extends ClienFacade {
 		dbCompany.setEmail(company.getEmail());
 		dbCompany.setPassword(company.getPassword());
 		companiesDAO.updateCompany(dbCompany);
+		System.out.println("Admin updateCompany");
+		companiesDAO.updateCompany(company);
 	}
 	
 	/**
@@ -96,6 +100,7 @@ public class AdminFacade extends ClienFacade {
 	public void addCustomer(Customer customer) throws CouponSystemException {
 		System.out.println("Admin addCustomer");
 		if(!customerDAO.isEmailExists(customer.getEmail())) {
+		if(!customerDAO.isCustomerExists(customer.getEmail())) {
 			customerDAO.addCustomer(customer);
 		} else {
 			System.out.println("you can't add customes, email must be unique");

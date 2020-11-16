@@ -57,7 +57,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			ResultSet resultSet = pStatement.executeQuery();
 			return resultSet.next();
 		} catch (SQLException e) {
-			throw new CouponSystemException("isEmailExists fail", e);
+			throw new CouponSystemException("isEmailExists. fail", e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -244,5 +244,4 @@ public class CustomersDBDAO implements CustomesDAO {
 			throw new CouponSystemException("getCustomer fail", e);
 		}
 	}
-
 }

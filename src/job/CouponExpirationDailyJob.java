@@ -26,7 +26,7 @@ public class CouponExpirationDailyJob implements Runnable {
 	}
 	
 	public void stop() {
-		this.quit = false;
+		this.quit = true;
 	}
 
 }

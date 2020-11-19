@@ -30,7 +30,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		Connection connection = connectionPool.getConnection();
 		String sql = "select id from coupon_system.companies"
 				+ " where email=? and"
-				+ "password=?";
+				+ " password=?";
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)){
 			pStatement.setString(1, email);
 			pStatement.setString(2, password);

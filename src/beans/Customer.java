@@ -15,10 +15,6 @@ public class Customer {
 	private String password;
 	private List<Coupon> coupons;
 	
-	public Customer() {
-		
-	}
-	
 	public Customer(String firstName, String lastName, String email, String password) {
 		super();
 		this.firstName = firstName;

@@ -19,12 +19,6 @@ public class Company implements Serializable {
 	private String password;
 	private List<Coupon> coupons;
 	
-	public Company() {
-		
-	}
-	
-	
-	
 	public Company(int id, String name, String email, String password) {
 		super();
 		this.id = id;

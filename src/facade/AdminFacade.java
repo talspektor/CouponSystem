@@ -100,7 +100,6 @@ public class AdminFacade extends ClienFacade {
 	public void addCustomer(Customer customer) throws CouponSystemException {
 		System.out.println("Admin addCustomer");
 		if(!customerDAO.isEmailExists(customer.getEmail())) {
-		if(!customerDAO.isCustomerExists(customer.getEmail())) {
 			customerDAO.addCustomer(customer);
 		} else {
 			System.out.println("you can't add customes, email must be unique");

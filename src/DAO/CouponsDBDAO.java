@@ -368,10 +368,9 @@ public class CouponsDBDAO implements CouponsDAO {
 				+ " where company_id=?";
 		try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 			pstmt.setInt(1, companyId);
-			System.out.println(pstmt.toString());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("deleteCouponsByCoumpanyId fail", e);
+			throw new CouponSystemException("deleteCouponsByCoumpanyId fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -392,8 +391,8 @@ public class CouponsDBDAO implements CouponsDAO {
 			pstmt.setInt(2, couponId);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("addCouponPurchase fail, customr"
-					+ " id=" + customerId + " coupon id=" + couponId, e);
+			throw new CouponSystemException("addCouponPurchase fail:, customr"
+					+ " id=" + customerId + " coupon id=" + couponId + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -414,7 +413,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			pstmt.setInt(2, couponId);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("deleteCouponPurchase fail", e);
+			throw new CouponSystemException("deleteCouponPurchase fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -423,7 +422,7 @@ public class CouponsDBDAO implements CouponsDAO {
 	/**
 	 * @param couponId
 	 * @throws CouponSystemException
-	 * delete all coupon purchaces with this coupon id from database 
+	 * delete all coupon purchases with this coupon id from database 
 	 */
 	//TODO: test it
 	@Override
@@ -432,14 +431,14 @@ public class CouponsDBDAO implements CouponsDAO {
 		String sql = "delete coupon_system.customers_vs_coupons"
 				+ " from coupon_system.customers_vs_coupons"
 				+ " inner join coupon_system.coupons"
-				+ " on customers_vs_coupons.coupon_id=coupons.id"
-				+ "where coupons.company_id=?";
+				+ " on coupon_system.customers_vs_coupons.coupon_id=coupon_system.coupons.id"
+				+ " where coupon_system.coupons.company_id=?";
 		try(PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setInt(1, companyId);
 			pStatement.executeUpdate();
 			pStatement.toString();
 		} catch (SQLException e) {
-			throw new CouponSystemException("deleteCouponPurchaceByCompanyId fail " + e.getMessage(), e);
+			throw new CouponSystemException("deleteCouponPurchaceByCompanyId fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -460,7 +459,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			pStatement.setInt(1, customerId);
 			pStatement.executeUpdate();
 		} catch (Exception e) {
-			throw new CouponSystemException("deleteCouponPurchaceByCustomerId fail", e);
+			throw new CouponSystemException("deleteCouponPurchaceByCustomerId fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -468,7 +467,7 @@ public class CouponsDBDAO implements CouponsDAO {
 	
 	/**
 	 * @param couponId
-	 * delete coupon purchace for database
+	 * delete coupon purchase for database
 	 */
 	public void deleteCoutonPurchaceByCouponId(int couponId) throws CouponSystemException {
 		setSafeUpdateOff();

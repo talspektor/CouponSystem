@@ -141,7 +141,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			pstmt.setInt(1, companyId);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("deleteCompany fail", e);
+			throw new CouponSystemException("deleteCompany fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}

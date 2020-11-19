@@ -79,8 +79,9 @@ public class ConnectionPool {
 		for (Connection connection : connections) {
 			try {
 				connection.close();
+				System.out.println("closeAllConnections");
 			} catch (SQLException e) {
-				new CouponSystemException("closeAllConnections fail", e);
+				new CouponSystemException("closeAllConnections fail: " + e.getMessage(), e);
 			}
 		}
 	}

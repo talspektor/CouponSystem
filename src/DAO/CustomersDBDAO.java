@@ -106,7 +106,6 @@ public class CustomersDBDAO implements CustomesDAO {
 			pstmt.setString(3, customer.getEmail());
 			pstmt.setString(4, customer.getPassword());
 			pstmt.setInt(5, customer.getId());
-			System.out.println(pstmt.toString());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CouponSystemException("updateCustomer fail", e);

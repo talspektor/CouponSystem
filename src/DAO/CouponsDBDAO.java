@@ -439,7 +439,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			pStatement.executeUpdate();
 			pStatement.toString();
 		} catch (SQLException e) {
-			throw new CouponSystemException("deleteCouponPurchaceByCompanyId fail", e);
+			throw new CouponSystemException("deleteCouponPurchaceByCompanyId fail " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -448,7 +448,7 @@ public class CouponsDBDAO implements CouponsDAO {
 	/**
 	 * @param customerId
 	 * @throws CouponSystemException
-	 * delete coupon purrchaces with this customer id from database 
+	 * delete coupon purchases with this customer id from database 
 	 */
 	//TODO: test it
 	@Override
@@ -471,12 +471,14 @@ public class CouponsDBDAO implements CouponsDAO {
 	 * delete coupon purchace for database
 	 */
 	public void deleteCoutonPurchaceByCouponId(int couponId) throws CouponSystemException {
+		setSafeUpdateOff();
 		Connection connection = connectionPool.getConnection();
 		String sql = "delete from coupon_system.customers_vs_coupons"
 				+ " where coupon_id=?";
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setInt(1, couponId);
 			pStatement.executeUpdate();
+			setSafeUpdateOn();
 		} catch (SQLException e) {
 			throw new CouponSystemException("deleteCoutonPurchaceByCouponId fail", e);
 		} finally {
@@ -501,6 +503,30 @@ public class CouponsDBDAO implements CouponsDAO {
 		} catch (SQLException e) {
 			throw new CouponSystemException("getCoupon fail", e);
 		} 
+	}
+	
+	private void setSafeUpdateOff() throws CouponSystemException {
+		Connection connection = connectionPool.getConnection();
+		String sql = "SET SQL_SAFE_UPDATES = 0";
+		try (Statement statement = connection.createStatement()) {
+			statement.executeQuery(sql);
+		} catch (SQLException e) {
+			throw new CouponSystemException("setSafeUpdateOn fail", e);
+		} finally {
+			connectionPool.restoreConnection(connection);
+		}
+	}
+	
+	private void setSafeUpdateOn() throws CouponSystemException {
+		Connection connection = connectionPool.getConnection();
+		String sql = "SET SQL_SAFE_UPDATES = 1";
+		try (Statement statement = connection.createStatement()) {
+			statement.executeQuery(sql);
+		} catch (SQLException e) {
+			throw new CouponSystemException("setSafeUpdateOn fail", e);
+		} finally {
+			connectionPool.restoreConnection(connection);
+		}
 	}
 
 }

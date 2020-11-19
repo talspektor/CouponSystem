@@ -52,12 +52,15 @@ public class AdminFacade extends ClienFacade {
 	 * update company in database (don't change company name) 
 	 */
 	public void updateCompany(Company company) throws CouponSystemException {
-		System.out.println("AdminFacade updateCompany");
-		Company dbCompany = companiesDAO.getCompany(company.getEmail(), company.getPassword());
+		System.out.println("Admin updateCompany");
+		Company dbCompany = getCompany(company.getId());
+		if (dbCompany == null) {
+			System.out.println("Admin compant not found");
+			return;
+		} 
 		dbCompany.setEmail(company.getEmail());
 		dbCompany.setPassword(company.getPassword());
 		companiesDAO.updateCompany(dbCompany);
-		System.out.println("Admin updateCompany");
 		companiesDAO.updateCompany(company);
 	}
 	
@@ -87,8 +90,8 @@ public class AdminFacade extends ClienFacade {
 	 * @return the company with that id
 	 * @throws CouponSystemException
 	 */
-	public Company getCompanyById(int companyId) throws CouponSystemException {
-		System.out.println("Admin getCompanyById");
+	public Company getCompany(int companyId) throws CouponSystemException {
+		System.out.println("Admin getCompany");
 		return companiesDAO.getOneCompany(companyId);
 	}
 	

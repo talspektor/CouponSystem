@@ -191,7 +191,7 @@ public class CustomersDBDAO implements CustomesDAO {
 		Connection connection = connectionPool.getConnection();
 		String sql = "select * from coupon_system.customers"
 				+ " where email=? and"
-				+ "password=?";
+				+ " password=?";
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setString(1, email);
 			pStatement.setString(2, password);
@@ -202,7 +202,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			System.out.println("Customer not found.");
 			return null;
 		} catch (SQLException e) {
-			throw new CouponSystemException("getOneCustomer fail", e);
+			throw new CouponSystemException("getOneCustomer fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -218,7 +218,7 @@ public class CustomersDBDAO implements CustomesDAO {
 		Connection connection = connectionPool.getConnection();
 		String sql = "select * from coupon_system.customers_vs_coupons"
 				+ " where customer_id=? and"
-				+ "coupon_id=?";
+				+ " coupon_id=?";
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setInt(1, customerId);
 			pStatement.setInt(2, couponId);

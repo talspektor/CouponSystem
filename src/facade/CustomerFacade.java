@@ -19,6 +19,10 @@ public class CustomerFacade extends ClienFacade {
 		super(customerDAO, companiesDAO, couponsDAO);
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	/**
 	 *@param email
 	 *@param password
@@ -28,10 +32,10 @@ public class CustomerFacade extends ClienFacade {
 	public boolean login(String email, String password) throws CouponSystemException {
 		Customer customer = customerDAO.getCustomerByEmailAndPassword(email, password);
 		if(customer == null) { 
-			System.out.println("customer fail to login");
+			System.out.println("customer fail to login :(");
 			return false;
 		}
-		System.out.println("login success");
+		System.out.println("login success :)");
 		this.id = customer.getId();
 		return true;
 	}
@@ -42,6 +46,7 @@ public class CustomerFacade extends ClienFacade {
 	 * purchase coupon if valid for customer
 	 */
 	public void purchaseCoupon(int couponId) throws CouponSystemException {
+		System.out.println("Customer purchaseCoupon");
 		//validate coupon not purchase before
 		if (!validateCoupnNotPurchaseAlready(couponId)) { return; }
 		// validate coupon is available
@@ -60,6 +65,7 @@ public class CustomerFacade extends ClienFacade {
 	 * @throws CouponSystemException
 	 */
 	public ArrayList<Coupon> getCoupons() throws CouponSystemException {
+		System.out.println("Customer getCoupons");
 		return couponsDAO.getAllCustomerCoupons(id);
 	}
 	
@@ -69,10 +75,12 @@ public class CustomerFacade extends ClienFacade {
 	 * @throws CouponSystemException
 	 */
 	public ArrayList<Coupon> getCoupons(Category category) throws CouponSystemException {
+		System.out.println("Customer getCoupons(Category)");
 		return couponsDAO.getAllCustomerCouponsForCategoty(category.getId(), id);
 	}
 	
 	public ArrayList<Coupon> getCoupons(double maxPrice) throws CouponSystemException {
+		System.out.println("Customer getCoupons(double)");
 		return couponsDAO.getAllCompanyCouponsMaxPrice(maxPrice, id);
 	}
 	
@@ -81,6 +89,7 @@ public class CustomerFacade extends ClienFacade {
 	 * @throws CouponSystemException
 	 */
 	public Customer getCustomerDetails() throws CouponSystemException {
+		System.out.println("Customer getCustomerDetails()");
 		return customerDAO.getOneCustomer(id);
 	}
 	

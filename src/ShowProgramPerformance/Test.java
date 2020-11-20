@@ -16,6 +16,7 @@ import connection.ConnectionPool;
 import excetion.CouponSystemException;
 import facade.AdminFacade;
 import facade.CompanyFacade;
+import facade.CustomerFacade;
 import job.DailyJob;
 
 public class Test {
@@ -39,10 +40,10 @@ public class Test {
 		testAdminFacade(customerDAO, companiesDAO, couponsDAO);
 		// Company
 		testCompanyFacade(customerDAO, companiesDAO, couponsDAO);
+		// Customer
+		testCustomerFacade(customerDAO, companiesDAO, couponsDAO);
 		
-		cleenClose(job);
-		
-		
+		cleenClose(job);	
 	}
 
 	/** test all administrator client facade methods
@@ -112,7 +113,17 @@ public class Test {
 	
 	private void testCustomerFacade(CustomesDAO customerDAO, CompaniesDAO companiesDAO, CouponsDAO couponsDAO) throws CouponSystemException {
 		System.out.println("Customer test\n=========================\n");
+		CustomerFacade customerFacade = new CustomerFacade(customerDAO, companiesDAO, couponsDAO);
+		customerFacade.login("email1", "password1");
 		
+		Customer customer = new Customer("firstName3", "lastName3", "email3", "password3");
+		customerFacade.purchaseCoupon(customerFacade.getId());
+		customerFacade.getCoupons();
+		customerFacade.getCoupons(Category.FOOD);
+		customerFacade.getCoupons(99);
+		customerFacade.getCustomerDetails();
+		
+		System.out.println("==========================");
 	}
 	
 	

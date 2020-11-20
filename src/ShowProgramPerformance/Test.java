@@ -1,16 +1,21 @@
 package ShowProgramPerformance;
 
+import java.sql.Date;
+
 import DAO.CompaniesDAO;
 import DAO.CompaniesDBDAO;
 import DAO.CouponsDAO;
 import DAO.CouponsDBDAO;
 import DAO.CustomersDBDAO;
 import DAO.CustomesDAO;
+import beans.Category;
 import beans.Company;
+import beans.Coupon;
 import beans.Customer;
 import connection.ConnectionPool;
 import excetion.CouponSystemException;
 import facade.AdminFacade;
+import facade.CompanyFacade;
 import job.DailyJob;
 
 public class Test {
@@ -47,10 +52,7 @@ public class Test {
 	 * @throws CouponSystemException
 	 */
 	private void testAdminFacade(CustomesDAO customerDAO, CompaniesDAO companiesDAO, CouponsDAO couponsDAO) throws CouponSystemException {
-		// Administrator
-		System.out.println("Administarator test");
-		System.out.println("===========================");
-		System.out.println();
+		System.out.println("Administarator test\n========================\n");
 		AdminFacade adminFacade = new AdminFacade(customerDAO, companiesDAO, couponsDAO);
 		adminFacade.login("com.admin@admin", "admin");
 
@@ -83,9 +85,36 @@ public class Test {
 		System.out.println("==========================");
 	}
 	
-	private void testCompanyFacade(CustomesDAO customerDAO, CompaniesDAO companiesDAO, CouponsDAO couponsDAO) {
+	/** test all company client facade methods
+	 * @param customerDAO
+	 * @param companiesDAO
+	 * @param couponsDAO
+	 * @throws CouponSystemException
+	 */
+	private void testCompanyFacade(CustomesDAO customerDAO, CompaniesDAO companiesDAO, CouponsDAO couponsDAO) throws CouponSystemException {
+		System.out.println("Company test\n==========================\n");
+		CompanyFacade companyFacade = new CompanyFacade(customerDAO, companiesDAO, couponsDAO);
+		companyFacade.login("email", "password");
+		
+		Coupon coupon = new Coupon(1, 1, "some_title", "some description", new Date(2020, 10, 10), new Date(2021, 10, 10), 5, 20.5, "someUrl");
+		companyFacade.addCoupon(coupon);
+		coupon = couponsDAO.getOneCoupon(companyFacade.getCompanyId());
+		coupon.setPrice(100.5);
+		companyFacade.updateCoupon(coupon);
+		companyFacade.deleteCoupon(1);
+		companyFacade.getCompanyCoupons();
+		companyFacade.getCompanyCoupons(Category.FOOD);
+		companyFacade.getCompanyCoupons(99);
+		companyFacade.getCompanyDetails();
+		
+		System.out.println("==========================");
+	}
+	
+	private void testCustomerFacade(CustomesDAO customerDAO, CompaniesDAO companiesDAO, CouponsDAO couponsDAO) throws CouponSystemException {
+		System.out.println("Customer test\n=========================\n");
 		
 	}
+	
 	
 	private void cleenClose(DailyJob job) throws CouponSystemException {
 		// Stop the daily job

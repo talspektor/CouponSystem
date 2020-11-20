@@ -56,7 +56,7 @@ public class CompanyFacade extends ClienFacade {
 		}
 		System.out.println("coupon with title=" + coupon.getTitle()
 		+ " and company-id=" + companyId
-		+ " is in database. you can't add two coupons with the same title and company id");
+		+ " is in database.");
 	}
 	
 	/**

@@ -35,7 +35,6 @@ public class CouponsDBDAO implements CouponsDAO {
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setString(1, title);
 			pStatement.setInt(2, companyId);
-			System.out.println(pStatement.toString());
 			ResultSet resultSet = pStatement.executeQuery();
 			return resultSet.next();
 		} catch (SQLException e) {

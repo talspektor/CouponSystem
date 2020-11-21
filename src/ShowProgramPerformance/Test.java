@@ -20,10 +20,6 @@ import facade.CustomerFacade;
 import job.DailyJob;
 
 public class Test {
-	
-	private CustomesDAO customerDAO;
-	private CompaniesDAO companiesDAO;
-	private CouponsDAO couponsDAO;
 
 	public void testAll() throws CouponSystemException {
 		// Start the daily job

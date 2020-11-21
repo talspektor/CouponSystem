@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import DAO.constants.CustomerColumns;
+import DAO.constants.CustomersVsCouponsColumns;
+import DAO.constants.DbConstants;
+import DAO.constants.Tables;
 import beans.Customer;
 import connection.ConnectionPool;
 import excetion.CouponSystemException;
@@ -26,16 +30,16 @@ public class CustomersDBDAO implements CustomesDAO {
 	@Override
 	public boolean isCustomerExists(String email, String password) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		String sql = "select id from coupon_system.customers"
-				+ " where email=? and"
-				+ " password=?";
+		String sql = "select id from "+DbConstants.DB_NAME+"."+Tables.CUSTOMER
+				+ " where "+CustomerColumns.EMAIL+"=? and"
+				+ " "+CustomerColumns.PASSWORD+"=?";
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setString(1, email);
 			pStatement.setString(2, password);
 			ResultSet rs = pStatement.executeQuery();
 			return rs.next();
 		} catch (SQLException e) {
-			throw new CouponSystemException("isCustomerExists fail", e);
+			throw new CouponSystemException("isCustomerExists fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -50,14 +54,14 @@ public class CustomersDBDAO implements CustomesDAO {
 	@Override
 	public boolean isEmailExists(String email) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		String sql = "select email from coupon_system.customers"
-				+ " where email=?";
+		String sql = "select email from "+DbConstants.DB_NAME+"."+Tables.CUSTOMER
+				+ " where "+CustomerColumns.EMAIL+"=?";
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setString(1, email);
 			ResultSet resultSet = pStatement.executeQuery();
 			return resultSet.next();
 		} catch (SQLException e) {
-			throw new CouponSystemException("isEmailExists. fail", e);
+			throw new CouponSystemException("isEmailExists fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -70,18 +74,17 @@ public class CustomersDBDAO implements CustomesDAO {
 	@Override
 	public void addCustomer(Customer customer) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		String sql = "insert into coupon_system.customers"
-				+ " (first_name, last_name, email, password)"
+		String sql = "insert into "+DbConstants.DB_NAME+"."+Tables.CUSTOMER
+				+ " ("+CustomerColumns.FIRES_NAME+", "+CustomerColumns.LAST_NAME+", "+CustomerColumns.EMAIL+", "+CustomerColumns.PASSWORD+")"
 				+ " values(?,?,?,?)";
 		try (PreparedStatement pstmt = connection.prepareStatement(sql)){
 			pstmt.setString(1, customer.getFirstName());
 			pstmt.setString(2, customer.getLastName());
 			pstmt.setString(3, customer.getEmail());
 			pstmt.setString(4, customer.getPassword());
-
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("addCustomer fail", e);
+			throw new CouponSystemException("addCustomer fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -94,11 +97,11 @@ public class CustomersDBDAO implements CustomesDAO {
 	@Override
 	public void updateCustomer(Customer customer) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		String sql = "update coupon_system.customers"
-				+ " set first_name=?,"
-				+ " last_name=?,"
-				+ " email=?,"
-				+ " password=?"
+		String sql = "update "+DbConstants.DB_NAME+"."+Tables.CUSTOMER
+				+ " set "+CustomerColumns.FIRES_NAME+"=?,"
+				+ " "+CustomerColumns.LAST_NAME+"=?,"
+				+ " "+CustomerColumns.EMAIL+"=?,"
+				+ " "+CustomerColumns.PASSWORD+"=?"
 				+ " where id=?";
 		try (PreparedStatement pstmt = connection.prepareStatement(sql)){
 			pstmt.setString(1, customer.getFirstName());
@@ -108,7 +111,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			pstmt.setInt(5, customer.getId());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("updateCustomer fail", e);
+			throw new CouponSystemException("updateCustomer fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -121,14 +124,14 @@ public class CustomersDBDAO implements CustomesDAO {
 	@Override
 	public void deleteCustomer(int customerId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		String sql = "delete from coupon_system.customers"
+		String sql = "delete from "+DbConstants.DB_NAME+"."+Tables.CUSTOMER
 				+ " where id=?";
 		try (PreparedStatement pstmt = connectionPool.getConnection().prepareStatement(sql)){		
 			pstmt.setInt(1, customerId);
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new CouponSystemException("deleteCustomer fail", e);
+			throw new CouponSystemException("deleteCustomer fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -140,7 +143,7 @@ public class CustomersDBDAO implements CustomesDAO {
 	@Override
 	public ArrayList<Customer> getAllCustomers() throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		String sql = "select * from coupon_system.customers";
+		String sql = "select * from "+DbConstants.DB_NAME+"."+Tables.CUSTOMER;
 		try (Statement stmt = connection.createStatement();
 				ResultSet rs = stmt.executeQuery(sql)) {
 			ArrayList<Customer> customers = new ArrayList<Customer>();
@@ -149,7 +152,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			}
 			return customers;
 		} catch (SQLException e) {
-			throw new CouponSystemException("getAllCustomers fail", e);
+			throw new CouponSystemException("getAllCustomers fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -163,7 +166,7 @@ public class CustomersDBDAO implements CustomesDAO {
 	@Override
 	public Customer getOneCustomer(int customerId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		String sql = "select * from coupon_system.customers"
+		String sql = "select * from "+DbConstants.DB_NAME+"."+Tables.CUSTOMER
 				+ " where id=?";
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setInt(1, customerId);
@@ -174,7 +177,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			System.out.println("Customer not found.");
 			return null;
 		} catch (SQLException e) {
-			throw new CouponSystemException("getOneCustomer fail", e);
+			throw new CouponSystemException("getOneCustomer fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -189,9 +192,9 @@ public class CustomersDBDAO implements CustomesDAO {
 	@Override
 	public Customer getCustomerByEmailAndPassword(String email, String password) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		String sql = "select * from coupon_system.customers"
-				+ " where email=? and"
-				+ " password=?";
+		String sql = "select * from "+DbConstants.DB_NAME+"."+Tables.CUSTOMER
+				+ " where "+CustomerColumns.EMAIL+"=? and"
+				+ " "+CustomerColumns.PASSWORD+"=?";
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setString(1, email);
 			pStatement.setString(2, password);
@@ -216,16 +219,16 @@ public class CustomersDBDAO implements CustomesDAO {
 	@Override
 	public boolean isCouponAlreadyPurchased(int customerId, int couponId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
-		String sql = "select * from coupon_system.customers_vs_coupons"
-				+ " where customer_id=? and"
-				+ " coupon_id=?";
+		String sql = "select * from "+DbConstants.DB_NAME+"."+Tables.CUSTOMER_VS_COUPONS
+				+ " where "+CustomersVsCouponsColumns.CUSTOMER_ID+"=? and"
+				+ " "+CustomersVsCouponsColumns.COUPON_ID+"=?";
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
 			pStatement.setInt(1, customerId);
 			pStatement.setInt(2, couponId);
 			ResultSet rs = pStatement.executeQuery();
 			return rs.next();
 		} catch (SQLException e) {
-			throw new CouponSystemException("isCouponAlreadyPurchased fail", e);
+			throw new CouponSystemException("isCouponAlreadyPurchased fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
 		}
@@ -233,14 +236,14 @@ public class CustomersDBDAO implements CustomesDAO {
 	
 	private Customer getCustomer(ResultSet rs) throws CouponSystemException {
 		try {
-			String firstName = rs.getString("first_name");
-			String lastName = rs.getString("last_name");
-			String email = rs.getString("email");
-			String password = rs.getString("password");
+			String firstName = rs.getString(CustomerColumns.FIRES_NAME);
+			String lastName = rs.getString(CustomerColumns.LAST_NAME);
+			String email = rs.getString(CustomerColumns.EMAIL);
+			String password = rs.getString(CustomerColumns.PASSWORD);
 			int id = rs.getInt("id");
 			return new Customer(id, firstName, lastName, email, password);
 		} catch (SQLException e) {
-			throw new CouponSystemException("getCustomer fail", e);
+			throw new CouponSystemException("getCustomer fail: " + e.getMessage(), e);
 		}
 	}
 }

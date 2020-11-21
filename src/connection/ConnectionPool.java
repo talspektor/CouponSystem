@@ -10,7 +10,7 @@ import java.util.Set;
 import excetion.CouponSystemException;
 
 /**
- * @author taltalspektor
+ * @author tal spektor
  * manage the system connections
  */
 public class ConnectionPool {
@@ -32,7 +32,7 @@ public class ConnectionPool {
 			try {
 				connections.add(DriverManager.getConnection(url, "test", "testpassword"));
 			} catch (SQLException e) {
-				throw new CouponSystemException("ConnectionPool: fail to construct" , e);
+				throw new CouponSystemException("ConnectionPool constaructor fail: " + e.getMessage() , e);
 			}
 		}
 	}
@@ -56,7 +56,7 @@ public class ConnectionPool {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				new CouponSystemException("getConnection fail", e);
+				new CouponSystemException("getConnection fail: " + e.getMessage(), e);
 			}
 		}
 		Iterator<Connection> it = connections.iterator();

@@ -23,7 +23,12 @@ public class AdminFacade extends ClienFacade {
 	@Override
 	public boolean login(String email, String password) {
 		System.out.println("Admin login");
-		return email == "com.admin@admin" && password == "admin";
+		if (email == "com.admin@admin" && password == "admin") {
+			System.out.println("login success :)");
+			return true;
+		}
+		System.out.println("login fail :(");
+		return false;
 	}
 	
 	/**
@@ -122,7 +127,7 @@ public class AdminFacade extends ClienFacade {
 	/**
 	 * @param customerId
 	 * @throws CouponSystemException
-	 * delete customer coupon purchaces and delete costomer from database
+	 * delete customer coupon purchases and delete customer from database
 	 */
 	public void deleteCustomer(int customerId) throws CouponSystemException {
 		System.out.println("Admin deleteCustomer");

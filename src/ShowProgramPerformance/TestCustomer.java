@@ -4,7 +4,6 @@ import DAO.CompaniesDAO;
 import DAO.CouponsDAO;
 import DAO.CustomesDAO;
 import beans.Category;
-import beans.Customer;
 import excetion.CouponSystemException;
 import facade.CustomerFacade;
 
@@ -26,12 +25,11 @@ public class TestCustomer {
 		CustomerFacade customerFacade = new CustomerFacade(customerDAO, companiesDAO, couponsDAO);
 		customerFacade.login("email1", "password1");
 		
-		Customer customer = new Customer("firstName3", "lastName3", "email3", "password3");
 		customerFacade.purchaseCoupon(customerFacade.getId());
-		customerFacade.getCoupons();
-		customerFacade.getCoupons(Category.FOOD);
-		customerFacade.getCoupons(99);
-		customerFacade.getCustomerDetails();
+		System.out.println(customerFacade.getCoupons());
+		System.out.println(customerFacade.getCoupons(Category.FOOD));
+		System.out.println(customerFacade.getCoupons(120));
+		System.out.println(customerFacade.getCustomerDetails());
 		
 		System.out.println("==========================");
 	}

@@ -40,8 +40,8 @@ public class TestAdmin {
 		adminFacade.addCompany(company);
 		company.setEmail("companyEmail111");
 		adminFacade.updateCompany(company);
-		adminFacade.getCompany(company.getId());
-		adminFacade.getAllCompanies();
+		System.out.println(adminFacade.getCompany(1)); 
+		System.out.println(adminFacade.getAllCompanies());
 		adminFacade.deleteCoumpany(20);
 
 		System.out.println("===========================");
@@ -54,9 +54,9 @@ public class TestAdmin {
 		adminFacade.addCustomer(customer);
 		customer.setEmail("customer_new_email88");
 		adminFacade.updateCustomer(customer);
-		adminFacade.getCustomer(5);
+		System.out.println(adminFacade.getCustomer(customer.getId()));
 		adminFacade.deleteCustomer(customer.getId());
-		adminFacade.getAllCustomer();
+		System.out.println(adminFacade.getAllCustomer()); 
 
 		System.out.println("==========================");
 	}

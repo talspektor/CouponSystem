@@ -40,10 +40,10 @@ public class TestCompamy {
 		coupon.setPrice(100.5);
 		companyFacade.updateCoupon(coupon);
 		companyFacade.deleteCoupon(1);
-		companyFacade.getCompanyCoupons();
-		companyFacade.getCompanyCoupons(Category.FOOD);
-		companyFacade.getCompanyCoupons(99);
-		companyFacade.getCompanyDetails();
+		System.out.println(companyFacade.getCompanyCoupons());
+		System.out.println(companyFacade.getCompanyCoupons(Category.VACATION));
+		System.out.println(companyFacade.getCompanyCoupons(130));
+		System.out.println(companyFacade.getCompanyDetails());
 		
 		System.out.println("==========================");
 	}

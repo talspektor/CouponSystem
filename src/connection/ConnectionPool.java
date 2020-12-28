@@ -23,6 +23,8 @@ public class ConnectionPool {
 	private String url = "jdbc:mysql://localhost:3306/coupon_system";
 
 	private static ConnectionPool instance;
+	private int closeConnectionCount;
+	private int openConnectionCount;
 
 	/**
 	 * @throws CouponSystemException
@@ -52,6 +54,8 @@ public class ConnectionPool {
 	 * if no connection is available will notify the current thread to wait
 	 */
 	public synchronized Connection getConnection() throws CouponSystemException {
+		openConnectionCount++;
+		System.out.println(">>>>>>>>>>>>>>>>getConnection " + openConnectionCount);
 		while (connections.isEmpty()) {
 			try {
 				wait();
@@ -69,13 +73,24 @@ public class ConnectionPool {
 	 * Restore a connection back in the connection set
 	 */
 	public synchronized void restoreConnection(Connection connection) {
+		closeConnectionCount++;
+		System.out.println("<<<<<<<<<<<<<<<<<restoreConnection " + closeConnectionCount);
 		connections.add(connection);
 		notify();
 	}
 	/**
 	 * Close all the connections
 	 */
-	public void closeAllConnections() throws CouponSystemException {
+	public synchronized void closeAllConnections() throws CouponSystemException {
+		System.out.println(connections.size());
+		//TODO: close the pool from getting connections out 
+		while (connections.size() != MAX) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		for (Connection connection : connections) {
 			try {
 				connection.close();

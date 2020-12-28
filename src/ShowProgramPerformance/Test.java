@@ -41,6 +41,7 @@ public class Test {
 		// Stop the daily job
 		job.stop();
 		// Close all connections
+		System.out.println("closeAllConnections");
 		ConnectionPool.getInstance().closeAllConnections();
 	}
 }

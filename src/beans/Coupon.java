@@ -19,8 +19,6 @@ public class Coupon {
 	private double price;
 	private String imageUrl;
 	
-	
-	
 	public Coupon(int companyId, int categoryId, String title, String description, Date startDate, Date endDate,
 			int amount, double price, String imageUrl) {
 		super();

@@ -27,7 +27,7 @@ public class Company implements Serializable {
 		this.password = password;
 	}
 
-
+	//TODO: add default constructor for all beans
 
 	public Company(String name, String email, String password) {
 		super();

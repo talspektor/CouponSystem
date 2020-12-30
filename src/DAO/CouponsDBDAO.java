@@ -41,7 +41,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			pStatement.setInt(2, companyId);
 			ResultSet resultSet = pStatement.executeQuery();
 			return resultSet.next();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("isCouponExists fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -77,7 +77,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			pstmt.setDouble(8, coupon.getPrice());
 			pstmt.setString(9, coupon.getImageUrl());
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("addCoupon fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -112,7 +112,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			pstmt.setString(8, coupon.getImageUrl());
 			pstmt.setInt(9, coupon.getId());
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("updateCoupon fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -131,7 +131,7 @@ public class CouponsDBDAO implements CouponsDAO {
 		try (PreparedStatement pstmt = connection.prepareStatement(sql)){
 			pstmt.setInt(1, couponId);
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("deleteCoupon fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -153,7 +153,7 @@ public class CouponsDBDAO implements CouponsDAO {
 		try (PreparedStatement pStatement = connection.prepareStatement(sql)){
 			pStatement.setDate(1, new Date(Calendar.getInstance().getTime().getTime()));
 			pStatement.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("deleteExpierdCoupons fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -174,7 +174,7 @@ public class CouponsDBDAO implements CouponsDAO {
 				coupons.add(getCoupon(rs));
 			}
 			return coupons;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getAllCoupons fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -198,7 +198,7 @@ public class CouponsDBDAO implements CouponsDAO {
 				coupons.add(getCoupon(resultSet));
 			}
 			return coupons;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getAllCompanyCoupons fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -225,7 +225,7 @@ public class CouponsDBDAO implements CouponsDAO {
 				coupons.add(getCoupon(resultSet));
 			}
 			return coupons;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getAllCompanyCouponsMaxPrice fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -253,7 +253,7 @@ public class CouponsDBDAO implements CouponsDAO {
 				coupons.add(getCoupon(resultSet));
 			}
 			return coupons;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getAllCompanyCouponsByCategory fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -280,7 +280,7 @@ public class CouponsDBDAO implements CouponsDAO {
 				coupons.add(getCoupon(resultSet));
 			}
 			return coupons;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getAllCustomerCoupons fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -308,7 +308,7 @@ public class CouponsDBDAO implements CouponsDAO {
 				coupons.add(getCoupon(resultSet));
 			}
 			return coupons;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getAllCustomerCouponsForCategoty fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -336,7 +336,7 @@ public class CouponsDBDAO implements CouponsDAO {
 				coupons.add(getCoupon(resultSet));
 			}
 			return coupons;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getAllCustomerCouponsUpToMaxPrice fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -360,7 +360,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			}
 			System.out.println("coupon with id=" + couponId + " not found in database");
 			return null;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getOneCoupon fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -380,7 +380,7 @@ public class CouponsDBDAO implements CouponsDAO {
 		try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 			pstmt.setInt(1, companyId);
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("deleteCouponsByCoumpanyId fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -401,7 +401,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			pstmt.setInt(1, customerId);
 			pstmt.setInt(2, couponId);
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("addCouponPurchase fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -422,7 +422,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			pstmt.setInt(1, customeId);
 			pstmt.setInt(2, couponId);
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("deleteCouponPurchase fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -447,7 +447,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			pStatement.setInt(1, companyId);
 			pStatement.executeUpdate();
 			pStatement.toString();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("deleteCouponPurchaceByCompanyId fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -488,7 +488,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			pStatement.setInt(1, couponId);
 			pStatement.executeUpdate();
 			setSafeUpdateOn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("deleteCoutonPurchaceByCouponId fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -509,7 +509,7 @@ public class CouponsDBDAO implements CouponsDAO {
 			String imageUrl = rs.getString(CouponColumns.IMAGE);
 			return new Coupon(id, companyId, categoryId, title, description, startDate, endDate, amount, price, imageUrl);
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getCoupon fail: " + e.getMessage(), e);
 		} 
 	}
@@ -519,7 +519,7 @@ public class CouponsDBDAO implements CouponsDAO {
 		String sql = "SET SQL_SAFE_UPDATES = 0";
 		try (Statement statement = connection.createStatement()) {
 			statement.executeQuery(sql);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("setSafeUpdateOn fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -531,7 +531,7 @@ public class CouponsDBDAO implements CouponsDAO {
 		String sql = "SET SQL_SAFE_UPDATES = 1";
 		try (Statement statement = connection.createStatement()) {
 			statement.executeQuery(sql);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("setSafeUpdateOn fai: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);

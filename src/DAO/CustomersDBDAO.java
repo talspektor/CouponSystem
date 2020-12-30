@@ -38,7 +38,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			pStatement.setString(2, password);
 			ResultSet rs = pStatement.executeQuery();
 			return rs.next();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("isCustomerExists fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -60,7 +60,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			pStatement.setString(1, email);
 			ResultSet resultSet = pStatement.executeQuery();
 			return resultSet.next();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("isEmailExists fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -83,7 +83,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			pstmt.setString(3, customer.getEmail());
 			pstmt.setString(4, customer.getPassword());
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("addCustomer fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -110,7 +110,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			pstmt.setString(4, customer.getPassword());
 			pstmt.setInt(5, customer.getId());
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("updateCustomer fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -130,7 +130,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			pstmt.setInt(1, customerId);
 
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("deleteCustomer fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -151,7 +151,7 @@ public class CustomersDBDAO implements CustomesDAO {
 				customers.add(getCustomer(rs));
 			}
 			return customers;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getAllCustomers fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -176,7 +176,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			}
 			System.out.println("Customer not found.");
 			return null;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getOneCustomer fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -204,7 +204,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			}
 			System.out.println("Customer not found.");
 			return null;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getOneCustomer fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -227,7 +227,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			pStatement.setInt(2, couponId);
 			ResultSet rs = pStatement.executeQuery();
 			return rs.next();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("isCouponAlreadyPurchased fail: " + e.getMessage(), e);
 		} finally {
 			connectionPool.restoreConnection(connection);
@@ -242,7 +242,7 @@ public class CustomersDBDAO implements CustomesDAO {
 			String password = rs.getString(CustomerColumns.PASSWORD);
 			int id = rs.getInt("id");
 			return new Customer(id, firstName, lastName, email, password);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CouponSystemException("getCustomer fail: " + e.getMessage(), e);
 		}
 	}

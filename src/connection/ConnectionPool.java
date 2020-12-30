@@ -55,7 +55,6 @@ public class ConnectionPool {
 	 */
 	public synchronized Connection getConnection() throws CouponSystemException {
 		openConnectionCount++;
-		System.out.println(">>>>>>>>>>>>>>>>getConnection " + openConnectionCount);
 		while (connections.isEmpty()) {
 			try {
 				wait();
@@ -74,7 +73,6 @@ public class ConnectionPool {
 	 */
 	public synchronized void restoreConnection(Connection connection) {
 		closeConnectionCount++;
-		System.out.println("<<<<<<<<<<<<<<<<<restoreConnection " + closeConnectionCount);
 		connections.add(connection);
 		notify();
 	}

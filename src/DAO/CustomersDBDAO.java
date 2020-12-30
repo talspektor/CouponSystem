@@ -126,7 +126,7 @@ public class CustomersDBDAO implements CustomesDAO {
 		Connection connection = connectionPool.getConnection();
 		String sql = "delete from "+DbConstants.DB_NAME+"."+Tables.CUSTOMER
 				+ " where id=?";
-		try (PreparedStatement pstmt = connectionPool.getConnection().prepareStatement(sql)){		
+		try (PreparedStatement pstmt = connection.prepareStatement(sql)){		
 			pstmt.setInt(1, customerId);
 
 			pstmt.executeUpdate();

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -142,7 +141,6 @@ public class CouponsDBDAO implements CouponsDAO {
 	 * @throws CouponSystemException
 	 * delete all expired coupons from database
 	 */
-	//TODO: test
 	public void deleteExpierdCoupons() throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
 		String sql = "delete "+DbConstants.DB_NAME+"."+Tables.COUPONS+", "+DbConstants.DB_NAME+"."+Tables.CUSTOMER_VS_COUPONS
@@ -372,7 +370,6 @@ public class CouponsDBDAO implements CouponsDAO {
 	 * @throws CouponSystemException
 	 * delete all coupons with the companyId
 	 */
-	//TODO: test it
 	public void deleteCouponsByCoumpanyId(int companyId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
 		String sql = "delete from "+DbConstants.DB_NAME+"."+Tables.COUPONS
@@ -434,7 +431,6 @@ public class CouponsDBDAO implements CouponsDAO {
 	 * @throws CouponSystemException
 	 * delete all coupon purchases with this coupon id from database 
 	 */
-	//TODO: test it
 	@Override
 	public void deleteCouponPurchaceByCompanyId(int companyId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();
@@ -459,7 +455,6 @@ public class CouponsDBDAO implements CouponsDAO {
 	 * @throws CouponSystemException
 	 * delete coupon purchases with this customer id from database 
 	 */
-	//TODO: test it
 	@Override
 	public void deleteCouponPurchaceByCustomerId(int customerId) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();

@@ -2,7 +2,6 @@ package job;
 
 import DAO.CouponsDAO;
 import DAO.CouponsDBDAO;
-import connection.ConnectionPool;
 import excetion.CouponSystemException;
 
 public class DailyJob implements Runnable {

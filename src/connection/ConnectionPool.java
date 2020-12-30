@@ -81,7 +81,6 @@ public class ConnectionPool {
 	 */
 	public synchronized void closeAllConnections() throws CouponSystemException {
 		System.out.println(connections.size());
-		//TODO: close the pool from getting connections out
 		isOpen = false;
 		while (connections.size() != MAX) {
 			try {

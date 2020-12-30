@@ -26,14 +26,17 @@ public class Company implements Serializable {
 		this.email = email;
 		this.password = password;
 	}
-
-	//TODO: add default constructor for all beans
+	
 
 	public Company(String name, String email, String password) {
 		super();
 		this.name = name;
 		this.email = email;
 		this.password = password;
+	}
+
+	public Company() {
+		super();
 	}
 
 	public String getName() {

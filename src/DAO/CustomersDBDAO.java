@@ -3,7 +3,6 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -50,7 +49,6 @@ public class CustomersDBDAO implements CustomesDAO {
 	 * @return true if email exists
 	 * @throws CouponSystemException
 	 */
-	//TODO: test it
 	@Override
 	public boolean isEmailExists(String email) throws CouponSystemException {
 		Connection connection = connectionPool.getConnection();

@@ -32,6 +32,10 @@ public class Customer {
 		this.password = password;
 	}
 
+	public Customer() {
+		super();
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
